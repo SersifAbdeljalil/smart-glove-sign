@@ -1,12 +1,6 @@
 """
 SMART GLOVE - Interface Web de Prédiction Temps Réel
 Fichier: glove_predictor.py
-
-Installation:
-pip install flask flask-cors joblib scikit-learn
-
-Utilisation:
-python glove_predictor.py
 """
 
 from flask import Flask, request, jsonify, render_template_string
@@ -32,7 +26,7 @@ except Exception as e:
     print("💡 Lance d'abord: python train_model.py")
     exit(1)
 
-# ========== STATISTIQUES ==========
+# ========== STATISTIQUES + DERNIÈRE PRÉDICTION ==========
 stats = {
     "total_predictions": 0,
     "predictions_by_label": {},
@@ -40,6 +34,9 @@ stats = {
     "confidence": 0,
     "history": []
 }
+
+# Variable globale pour stocker la dernière prédiction complète
+latest_prediction_data = None
 
 # ========== ROUTE: Page d'accueil ==========
 @app.route('/')
@@ -49,7 +46,7 @@ def index():
 # ========== ROUTE: Prédiction ==========
 @app.route('/predict', methods=['POST'])
 def predict():
-    global stats
+    global stats, latest_prediction_data
     
     try:
         # Récupérer les données JSON
@@ -106,13 +103,17 @@ def predict():
         stats['history'].insert(0, history_entry)
         stats['history'] = stats['history'][:50]
         
-        # Réponse
+        # Réponse complète
         result = {
             "predicted_label": predicted_label,
             "confidence": round(confidence, 2),
             "probabilities": {k: round(v, 2) for k, v in proba_dict.items()},
-            "features": features
+            "features": features,
+            "timestamp": datetime.now().isoformat()
         }
+        
+        # 🔥 STOCKER LA DERNIÈRE PRÉDICTION
+        latest_prediction_data = result
         
         print(f"✅ Prédiction: {predicted_label} ({confidence:.2f}%)")
         
@@ -122,12 +123,26 @@ def predict():
         print(f"❌ Erreur: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+# ========== ROUTE: Dernière prédiction (NOUVEAU) ==========
+@app.route('/latest-prediction', methods=['GET'])
+def get_latest_prediction():
+    """Retourner la dernière prédiction disponible pour le Dashboard React"""
+    global latest_prediction_data
+    
+    if latest_prediction_data is None:
+        return jsonify({
+            "error": "Aucune prédiction disponible",
+            "message": "En attente de données depuis le gant..."
+        }), 404
+    
+    return jsonify(latest_prediction_data)
+
 # ========== ROUTE: Statistiques ==========
 @app.route('/stats', methods=['GET'])
 def get_stats():
     return jsonify(stats)
 
-# ========== HTML TEMPLATE ==========
+# ========== HTML TEMPLATE (reste identique) ==========
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="fr">
@@ -430,9 +445,11 @@ if __name__ == '__main__':
     print("  SMART GLOVE - INTERFACE DE PRÉDICTION")
     print("="*50)
     print("\n🌐 Interface web: http://localhost:5000")
-    print("🌐 Adresse réseau: http://192.168.1.100:5000")
-    print("\n💡 Modifie l'URL dans le code ESP32:")
-    print('   const char* serverUrl = "http://192.168.1.100:5000/predict";')
+    print("🌐 Dashboard React: http://localhost:3000")
+    print("\n📡 Endpoints disponibles:")
+    print("   POST /predict - Prédiction depuis ESP32")
+    print("   GET /latest-prediction - Dernière prédiction (React)")
+    print("   GET /stats - Statistiques")
     print("\n" + "="*50 + "\n")
     
     app.run(host='0.0.0.0', port=5000, debug=True)
