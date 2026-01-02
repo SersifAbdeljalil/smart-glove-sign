@@ -1132,3 +1132,38 @@
     font-size: 1.25rem;
   }
 }
+/* Skills badges */
+.team-skills {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  margin-top: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.team-skill {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: linear-gradient(135deg, var(--primary-pale) 0%, var(--bg-medium) 100%);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-base);
+}
+
+.team-skill:hover {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--bg-darkest);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-primary);
+}
+
+.team-role {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 600; /* Plus visible */
+  margin-bottom: var(--spacing-xs);
+}

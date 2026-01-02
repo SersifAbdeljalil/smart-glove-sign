@@ -135,7 +135,7 @@ const Home = () => {
 
       {/* Section Features */}
       <Features />
-       {/* Section Équipe */}
+{/* Section Équipe */}
 <section className="team-section" id="team">
   <div className="team-container">
     <div className="team-header">
@@ -145,7 +145,7 @@ const Home = () => {
       </span>
       <h2 className="team-title">Les Créateurs du Projet</h2>
       <p className="team-description">
-        Une équipe passionnée qui a donné vie à Smart Glove
+        Une équipe polyvalente de développeurs Full Stack spécialisés en IA et IoT
       </p>
     </div>
 
@@ -158,7 +158,7 @@ const Home = () => {
             alt="SERSIF Abdeljalil"
             className="team-image"
             onError={(e) => {
-              e.target.src = 'https://ui-avatars.com/api/?name=Abdeljalil+SERSIF&background=6FF0E2&color=06141B&size=300&bold=true';
+              e.target.src = 'https://ui-avatars.com/api/?name=Abdeljalil+SERSIF&background=6FF0E2&color=06141B&size=400&bold=true&font-size=0.4';
             }}
           />
           <div className="team-overlay">
@@ -175,19 +175,23 @@ const Home = () => {
         </div>
         <div className="team-info">
           <h3 className="team-name">SERSIF Abdeljalil</h3>
-          <p className="team-role">Développeur & Ingénieur IoT</p>
+          <p className="team-role">Full Stack Developer</p>
+          <div className="team-skills">
+            <span className="team-skill">IA</span>
+            <span className="team-skill">IoT</span>
+            <span className="team-skill">Web</span>
+          </div>
         </div>
       </div>
 
       {/* Membre 2 - Nouhaila */}
       <div className="team-card">
         <div className="team-image-wrapper">
-             <img 
-    src="https://ui-avatars.com/api/?name=Nouhaila+Chahmi&background=8B1538&color=ffffff&size=400&bold=true&font-size=0.4&rounded=false"
-    alt="CHAHMI Nouhaila"
-    className="team-image"
-  />
-
+          <img 
+            src="https://ui-avatars.com/api/?name=Nouhaila+Chahmi&background=8B1538&color=ffffff&size=400&bold=true&font-size=0.4"
+            alt="CHAHMI Nouhaila"
+            className="team-image"
+          />
           <div className="team-overlay">
             <a 
               href="https://www.linkedin.com/in/nouhaila-chahmi-485542351" 
@@ -202,18 +206,23 @@ const Home = () => {
         </div>
         <div className="team-info">
           <h3 className="team-name">CHAHMI Nouhaila</h3>
-          <p className="team-role">Développeuse & Spécialiste IA</p>
+          <p className="team-role">Full Stack Developer</p>
+          <div className="team-skills">
+            <span className="team-skill">IA</span>
+            <span className="team-skill">IoT</span>
+            <span className="team-skill">Web</span>
+          </div>
         </div>
       </div>
 
       {/* Membre 3 - Kawtar */}
       <div className="team-card">
         <div className="team-image-wrapper">
-             <img 
-    src="https://ui-avatars.com/api/?name=Kawtar+Gantouh&background=9B7EBD&color=ffffff&size=400&bold=true&font-size=0.4&rounded=false"
-    alt="GANTOUH Kawtar"
-    className="team-image"
-  />
+          <img 
+            src="https://ui-avatars.com/api/?name=Kawtar+Gantouh&background=9B7EBD&color=ffffff&size=400&bold=true&font-size=0.4"
+            alt="GANTOUH Kawtar"
+            className="team-image"
+          />
           <div className="team-overlay">
             <a 
               href="https://www.linkedin.com/in/kawtar-gantouh-67a002352" 
@@ -228,7 +237,12 @@ const Home = () => {
         </div>
         <div className="team-info">
           <h3 className="team-name">GANTOUH Kawtar</h3>
-          <p className="team-role">Développeuse & Analyste</p>
+          <p className="team-role">Full Stack Developer</p>
+          <div className="team-skills">
+            <span className="team-skill">IA</span>
+            <span className="team-skill">IoT</span>
+            <span className="team-skill">Web</span>
+          </div>
         </div>
       </div>
     </div>
@@ -262,12 +276,11 @@ const Home = () => {
             </p>
 
             <p className="features-description" style={{ marginTop: 'var(--spacing-lg)' }}>
-              Grâce à notre système de deep learning avancé, nous avons 
-              développé une plateforme capable de reconnaître plus de 10 
-              gestes différents avec une précision supérieure à 95%, 
-              ouvrant ainsi de nouvelles possibilités dans les domaines 
-              de l'accessibilité, de la robotique et de l'interaction 
-              homme-machine.
+           Grâce à notre système de Machine Learning, nous avons développé 
+           un prototype capable de reconnaître trois gestes distincts avec une bonne précision, 
+           démontrant la faisabilité de la reconnaissance 
+           gestuelle pour des applications en accessibilité, 
+           interaction homme-machine et robotique.
             </p>
           </div>
 
@@ -278,10 +291,10 @@ const Home = () => {
                 <GraduationCap size={32} />
               </div>
               <h3 className="feature-title">
-                Deep Learning
+                Machine Learning
               </h3>
               <p className="feature-description">
-                Réseaux de neurones CNN pour une reconnaissance précise et rapide des gestes
+                Algorithme de Random Forest pour une reconnaissance précise et rapide des gestes à partir des données capteurs du Smart Glove.
               </p>
             </div>
 
