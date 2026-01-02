@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Github, Linkedin, Twitter, Mail, Sparkles } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,7 +18,7 @@ const Footer = () => {
           {/* Section Brand */}
           <div className="footer-brand">
             <Link to="/" className="footer-logo">
-              <span style={{ fontSize: '2rem' }}>🧤</span>
+              <Sparkles size={32} />
               <span>Smart Glove</span>
             </Link>
             <p className="footer-description">
@@ -32,8 +33,8 @@ const Footer = () => {
             }}>
               <span style={{ 
                 padding: 'var(--spacing-xs) var(--spacing-sm)',
-                backgroundColor: 'var(--primary)',
-                color: 'var(--secondary)',
+                background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
+                color: 'var(--bg-darkest)',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.75rem',
                 fontWeight: '600'
@@ -42,8 +43,8 @@ const Footer = () => {
               </span>
               <span style={{ 
                 padding: 'var(--spacing-xs) var(--spacing-sm)',
-                backgroundColor: 'var(--accent)',
-                color: 'var(--secondary)',
+                background: 'linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%)',
+                color: 'var(--bg-darkest)',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.75rem',
                 fontWeight: '600'
@@ -52,11 +53,12 @@ const Footer = () => {
               </span>
               <span style={{ 
                 padding: 'var(--spacing-xs) var(--spacing-sm)',
-                backgroundColor: 'var(--secondary-light)',
+                background: 'var(--bg-card)',
                 color: 'var(--primary)',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '0.75rem',
-                fontWeight: '600'
+                fontWeight: '600',
+                border: '1px solid var(--primary)'
               }}>
                 Temps Réel
               </span>
@@ -157,7 +159,7 @@ const Footer = () => {
               marginTop: 'var(--spacing-xs)',
               opacity: 0.8
             }}>
-              Fait avec ❤️ par l'équipe Smart Glove
+              Fait avec passion par l'équipe Smart Glove
             </p>
           </div>
 
@@ -170,33 +172,11 @@ const Footer = () => {
               className="footer-social-link"
               aria-label="GitHub"
             >
-              <span style={{ fontSize: '1.25rem' }}>💻</span>
+              <Github size={20} />
             </a>
-            <a 
-              href="https://linkedin.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="footer-social-link"
-              aria-label="LinkedIn"
-            >
-              <span style={{ fontSize: '1.25rem' }}>💼</span>
-            </a>
-            <a 
-              href="https://twitter.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="footer-social-link"
-              aria-label="Twitter"
-            >
-              <span style={{ fontSize: '1.25rem' }}>🐦</span>
-            </a>
-            <a 
-              href="mailto:contact@smartglove.com" 
-              className="footer-social-link"
-              aria-label="Email"
-            >
-              <span style={{ fontSize: '1.25rem' }}>📧</span>
-            </a>
+
+
+
           </div>
         </div>
       </div>

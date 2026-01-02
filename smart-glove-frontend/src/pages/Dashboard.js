@@ -1,33 +1,150 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Navbar from '../components/Navbar';
+import { 
+  Menu, 
+  X, 
+  Sparkles, 
+  Rocket, 
+  BookOpen, 
+  Home as HomeIcon,
+  Target,
+  Volume2,
+  VolumeX,
+  Settings as SettingsIcon,
+  Mic,
+  BarChart3,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+  Hand,
+  Users 
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import apiService from '../services/api';
 import ttsService from '../services/ttsService';
 import '../styles/dashboard.css';
 
+// ============================================
+// NAVBAR (même style que Home.js)
+// ============================================
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  return (
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+      <div className="navbar-container">
+        {/* Logo */}
+        <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
+          <span className="navbar-logo-icon">
+            <Sparkles size={28} />
+          </span>
+          <span>Smart Glove</span>
+        </Link>
+
+        {/* Menu Desktop */}
+        <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
+          <li>
+            <Link 
+              to="/" 
+              className="navbar-link" 
+              onClick={handleLinkClick}
+            >
+              <HomeIcon size={18} />
+              <span>Accueil</span>
+            </Link>
+          </li>
+          <li>
+            <a 
+              href="/#features" 
+              className="navbar-link"
+              onClick={handleLinkClick}
+            >
+              <Sparkles size={18} />
+              <span>Fonctionnalités</span>
+            </a>
+          </li>
+          <li>
+            <a 
+              href="/#about" 
+              className="navbar-link"
+              onClick={handleLinkClick}
+            >
+              <BookOpen size={18} />
+              <span>À propos</span>
+            </a>
+          </li>
+          <li>
+  <a 
+    href="/#team" 
+    className="navbar-link"
+    onClick={handleLinkClick}
+  >
+    <Users size={18} />
+    <span>Équipe</span>
+  </a>
+</li>
+          <li>
+            <Link to="/dashboard" onClick={handleLinkClick}>
+              <button className="hero-button hero-button-primary" style={{
+                padding: 'var(--spacing-sm) var(--spacing-lg)',
+                fontSize: '0.875rem'
+              }}>
+                <Rocket size={18} />
+                <span>Dashboard</span>
+              </button>
+            </Link>
+          </li>
+        </ul>
+
+        {/* Bouton Menu Mobile */}
+        <button 
+          className="navbar-toggle" 
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+    </nav>
+  );
+};
+
+// ============================================
+// DASHBOARD
+// ============================================
 const Dashboard = () => {
   // ========== ÉTATS ==========
   
-  // Prédiction actuelle
   const [prediction, setPrediction] = useState(null);
-  
-  // Historique des prédictions
   const [history, setHistory] = useState([]);
-  
-  // Statistiques globales
   const [stats, setStats] = useState(null);
-  
-  // États de chargement et erreurs
   const [error, setError] = useState(null);
   const [apiStatus, setApiStatus] = useState('checking');
   
   // États TTS
   const [isTTSEnabled, setIsTTSEnabled] = useState(true);
-  const [messageMode, setMessageMode] = useState('short'); // 'short' ou 'detailed'
-  const [voiceGender, setVoiceGender] = useState('all'); // 'male', 'female', 'all'
-  const [showSettings, setShowSettings] = useState(false); // Afficher/masquer les paramètres
+  const [messageMode, setMessageMode] = useState('short');
+  const [voiceGender, setVoiceGender] = useState('all');
+  const [showSettings, setShowSettings] = useState(false);
   
-  // Référence pour stocker la dernière prédiction reçue
   const lastPredictionRef = useRef(null);
 
   // ========== MAPPING DES LABELS VERS LES IMAGES ==========
@@ -54,12 +171,10 @@ const Dashboard = () => {
     checkApiConnection();
     loadStatsFromApi();
     
-    // Synchroniser les paramètres TTS
     ttsService.setEnabled(isTTSEnabled);
     ttsService.setMessageMode(messageMode);
     ttsService.setVoiceGender(voiceGender);
     
-    // Polling toutes les 500ms
     const interval = setInterval(() => {
       if (apiStatus === 'connected') {
         fetchLatestPrediction();
@@ -74,9 +189,6 @@ const Dashboard = () => {
 
   // ========== FONCTIONS ==========
 
-  /**
-   * Vérifier la connexion à l'API
-   */
   const checkApiConnection = async () => {
     const result = await apiService.testConnection();
     if (result.success) {
@@ -88,9 +200,6 @@ const Dashboard = () => {
     }
   };
 
-  /**
-   * Charger les statistiques depuis l'API
-   */
   const loadStatsFromApi = async () => {
     const result = await apiService.getStats();
     if (result.success) {
@@ -98,9 +207,6 @@ const Dashboard = () => {
     }
   };
 
-  /**
-   * Récupérer la dernière prédiction depuis l'API
-   */
   const fetchLatestPrediction = async () => {
     try {
       const result = await apiService.getLatestPrediction();
@@ -121,7 +227,6 @@ const Dashboard = () => {
 
           setPrediction(predictionData);
           
-          // ANNONCER LE GESTE AVEC TTS
           if (isTTSEnabled) {
             ttsService.speakGesture(
               newPrediction.predicted_label,
@@ -144,34 +249,22 @@ const Dashboard = () => {
 
   // ========== CONTRÔLES TTS ==========
 
-  /**
-   * Toggle TTS ON/OFF
-   */
   const toggleTTS = () => {
     const newState = !isTTSEnabled;
     setIsTTSEnabled(newState);
     ttsService.setEnabled(newState);
   };
 
-  /**
-   * Changer le mode de message (court/détaillé)
-   */
   const handleMessageModeChange = (mode) => {
     setMessageMode(mode);
     ttsService.setMessageMode(mode);
   };
 
-  /**
-   * Changer le genre de voix
-   */
   const handleVoiceGenderChange = (gender) => {
     setVoiceGender(gender);
     ttsService.setVoiceGender(gender);
   };
 
-  /**
-   * Tester le TTS
-   */
   const testTTS = () => {
     ttsService.test();
   };
@@ -187,7 +280,8 @@ const Dashboard = () => {
         {/* En-tête du Dashboard */}
         <div className="dashboard-header">
           <h1 className="dashboard-title">
-            🎯 Reconnaissance de Gestes
+            <Target size={40} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+            Reconnaissance de Gestes
           </h1>
           <p className="dashboard-subtitle">
             Affichage en temps réel des gestes détectés
@@ -195,7 +289,6 @@ const Dashboard = () => {
 
           {/* Contrôles principaux */}
           <div className="controls-wrapper">
-            {/* Statut API et contrôles TTS */}
             <div className="main-controls">
               {/* Statut API */}
               <div className={`api-status api-status-${apiStatus}`}>
@@ -213,7 +306,17 @@ const Dashboard = () => {
                 className={`tts-toggle-btn ${isTTSEnabled ? 'tts-enabled' : 'tts-disabled'}`}
                 title={isTTSEnabled ? 'Désactiver les annonces vocales' : 'Activer les annonces vocales'}
               >
-                {isTTSEnabled ? '🔊 Audio ON' : '🔇 Audio OFF'}
+                {isTTSEnabled ? (
+                  <>
+                    <Volume2 size={18} />
+                    <span>Audio ON</span>
+                  </>
+                ) : (
+                  <>
+                    <VolumeX size={18} />
+                    <span>Audio OFF</span>
+                  </>
+                )}
               </button>
 
               {/* Bouton Paramètres */}
@@ -222,7 +325,8 @@ const Dashboard = () => {
                 className="tts-settings-btn"
                 title="Paramètres audio"
               >
-                ⚙️ Paramètres
+                <SettingsIcon size={18} />
+                <span>Paramètres</span>
               </button>
 
               {/* Bouton Test */}
@@ -231,18 +335,22 @@ const Dashboard = () => {
                 className="tts-test-btn"
                 title="Tester la synthèse vocale"
               >
-                🎤 Test
+                <Mic size={18} />
+                <span>Test</span>
               </button>
             </div>
 
             {/* Panneau de paramètres */}
             {showSettings && (
               <div className="tts-settings-panel">
-                <h3 className="settings-title">⚙️ Paramètres Audio</h3>
+                <h3 className="settings-title">
+                  <SettingsIcon size={24} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+                  Paramètres Audio
+                </h3>
                 
                 {/* Mode de message */}
                 <div className="setting-group">
-                  <label className="setting-label">📝 Type d'annonce :</label>
+                  <label className="setting-label">Type d'annonce :</label>
                   <div className="setting-options">
                     <button
                       className={`setting-btn ${messageMode === 'short' ? 'active' : ''}`}
@@ -261,30 +369,30 @@ const Dashboard = () => {
 
                 {/* Genre de voix */}
                 <div className="setting-group">
-                  <label className="setting-label">👤 Genre de voix :</label>
+                  <label className="setting-label">Genre de voix :</label>
                   <div className="setting-options">
                     <button
                       className={`setting-btn ${voiceGender === 'female' ? 'active' : ''}`}
                       onClick={() => handleVoiceGenderChange('female')}
                     >
-                      👩 Féminine
+                      Féminine
                     </button>
                     <button
                       className={`setting-btn ${voiceGender === 'male' ? 'active' : ''}`}
                       onClick={() => handleVoiceGenderChange('male')}
                     >
-                      👨 Masculine
+                      Masculine
                     </button>
                     <button
                       className={`setting-btn ${voiceGender === 'all' ? 'active' : ''}`}
                       onClick={() => handleVoiceGenderChange('all')}
                     >
-                      👥 Les deux
+                      Les deux
                     </button>
                   </div>
                 </div>
 
-                {/* Aperçu de la configuration */}
+                {/* Aperçu */}
                 <div className="settings-preview">
                   <p>
                     <strong>Configuration actuelle :</strong><br/>
@@ -303,7 +411,9 @@ const Dashboard = () => {
         {stats && (
           <div className="dashboard-stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <BarChart3 size={32} />
+              </div>
               <div className="stat-content">
                 <div className="stat-value">{stats.total_predictions || 0}</div>
                 <div className="stat-label">Prédictions Totales</div>
@@ -311,7 +421,9 @@ const Dashboard = () => {
             </div>
 
             <div className="stat-card">
-              <div className="stat-icon">🎯</div>
+              <div className="stat-icon">
+                <Target size={32} />
+              </div>
               <div className="stat-content">
                 <div className="stat-value">{stats.last_prediction || '---'}</div>
                 <div className="stat-label">Dernier Geste</div>
@@ -319,7 +431,9 @@ const Dashboard = () => {
             </div>
 
             <div className="stat-card">
-              <div className="stat-icon">✨</div>
+              <div className="stat-icon">
+                <CheckCircle size={32} />
+              </div>
               <div className="stat-content">
                 <div className="stat-value">
                   {stats.confidence ? `${stats.confidence.toFixed(2)}%` : '---'}
@@ -333,18 +447,17 @@ const Dashboard = () => {
         {/* Message d'erreur */}
         {error && (
           <div className="dashboard-error">
-            <span className="dashboard-error-icon">⚠️</span>
+            <AlertTriangle size={24} className="dashboard-error-icon" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Contenu Principal - Prédiction Actuelle */}
+        {/* Prédiction Actuelle */}
         <div className="dashboard-content">
           {prediction ? (
             <div className="current-prediction" key={prediction.timestamp}>
               <h2 className="current-prediction-title">Geste Détecté</h2>
               
-              {/* IMAGE RÉELLE DU GESTE */}
               <div className="current-prediction-image">
                 <img 
                   src={prediction.image} 
@@ -356,12 +469,10 @@ const Dashboard = () => {
                 />
               </div>
               
-              {/* NOM DU GESTE */}
               <div className="current-prediction-label">
                 {prediction.label}
               </div>
               
-              {/* BARRE DE CONFIANCE */}
               <div className="current-prediction-confidence">
                 <div className="confidence-bar-wrapper">
                   <div className="confidence-bar">
@@ -383,14 +494,16 @@ const Dashboard = () => {
                 </div>
               </div>
               
-              {/* HEURE */}
               <div className="current-prediction-time">
-                📅 {prediction.timestamp}
+                <Clock size={18} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+                {prediction.timestamp}
               </div>
             </div>
           ) : (
             <div className="empty-prediction">
-              <div className="empty-prediction-icon">🤚</div>
+              <div className="empty-prediction-icon">
+                <Hand size={96} />
+              </div>
               <div className="empty-prediction-text">
                 En attente de détection...
               </div>
@@ -398,8 +511,6 @@ const Dashboard = () => {
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

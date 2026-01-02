@@ -3,12 +3,120 @@
    Page d'accueil principale
    ============================================ */
 
-import React, { useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, Sparkles, Rocket, BookOpen, Home as HomeIcon, GraduationCap, Settings, Zap,Linkedin, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
 import Footer from '../components/Footer';
 import '../styles/home.css';
+
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Détecter le scroll pour changer le style de la navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Fermer le menu mobile lors du clic sur un lien
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Toggle du menu mobile
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  return (
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+      <div className="navbar-container">
+        {/* Logo */}
+        <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
+          <span className="navbar-logo-icon">
+            <Sparkles size={28} />
+          </span>
+          <span>Smart Glove</span>
+        </Link>
+
+        {/* Menu Desktop */}
+        <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
+          <li>
+            <Link 
+              to="/" 
+              className="navbar-link" 
+              onClick={handleLinkClick}
+            >
+              <HomeIcon size={18} style={{ marginRight: '0.5rem' }} />
+              <span>Accueil</span>
+            </Link>
+          </li>
+          <li>
+            <a 
+              href="#features" 
+              className="navbar-link"
+              onClick={handleLinkClick}
+            >
+              <Sparkles size={18} style={{ marginRight: '0.5rem' }} />
+              <span>Fonctionnalités</span>
+            </a>
+          </li>
+          <li>
+            <a 
+              href="#about" 
+              className="navbar-link"
+              onClick={handleLinkClick}
+            >
+              <BookOpen size={18} style={{ marginRight: '0.5rem' }} />
+              <span>À propos</span>
+            </a>
+          </li>
+          <li>
+  <a 
+    href="/#team" 
+    className="navbar-link"
+    onClick={handleLinkClick}
+  >
+    <Users size={18} />
+    <span>Équipe</span>
+  </a>
+</li>
+          <li>
+            <Link to="/dashboard" onClick={handleLinkClick}>
+              <button className="hero-button hero-button-primary" style={{
+                padding: 'var(--spacing-sm) var(--spacing-lg)',
+                fontSize: '0.875rem'
+              }}>
+                <Rocket size={18} />
+                <span>Dashboard</span>
+              </button>
+            </Link>
+          </li>
+        </ul>
+
+        {/* Bouton Menu Mobile */}
+        <button 
+          className="navbar-toggle" 
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+    </nav>
+  );
+};
 
 const Home = () => {
   
@@ -27,51 +135,125 @@ const Home = () => {
 
       {/* Section Features */}
       <Features />
+       {/* Section Équipe */}
+<section className="team-section" id="team">
+  <div className="team-container">
+    <div className="team-header">
+      <span className="team-badge">
+        <Users size={16} />
+        Notre Équipe
+      </span>
+      <h2 className="team-title">Les Créateurs du Projet</h2>
+      <p className="team-description">
+        Une équipe passionnée qui a donné vie à Smart Glove
+      </p>
+    </div>
 
-      {/* Section À propos (optionnelle) */}
+    <div className="team-grid">
+      {/* Membre 1 - Abdeljalil */}
+      <div className="team-card">
+        <div className="team-image-wrapper">
+          <img 
+            src="/gestures/SERSIF Abdeljalil.jpg" 
+            alt="SERSIF Abdeljalil"
+            className="team-image"
+            onError={(e) => {
+              e.target.src = 'https://ui-avatars.com/api/?name=Abdeljalil+SERSIF&background=6FF0E2&color=06141B&size=300&bold=true';
+            }}
+          />
+          <div className="team-overlay">
+            <a 
+              href="https://www.linkedin.com/in/abdeljalil-sersif" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="team-linkedin-btn"
+            >
+              <Linkedin size={24} />
+              <span>Voir le profil</span>
+            </a>
+          </div>
+        </div>
+        <div className="team-info">
+          <h3 className="team-name">SERSIF Abdeljalil</h3>
+          <p className="team-role">Développeur & Ingénieur IoT</p>
+        </div>
+      </div>
+
+      {/* Membre 2 - Nouhaila */}
+      <div className="team-card">
+        <div className="team-image-wrapper">
+             <img 
+    src="https://ui-avatars.com/api/?name=Nouhaila+Chahmi&background=8B1538&color=ffffff&size=400&bold=true&font-size=0.4&rounded=false"
+    alt="CHAHMI Nouhaila"
+    className="team-image"
+  />
+
+          <div className="team-overlay">
+            <a 
+              href="https://www.linkedin.com/in/nouhaila-chahmi-485542351" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="team-linkedin-btn"
+            >
+              <Linkedin size={24} />
+              <span>Voir le profil</span>
+            </a>
+          </div>
+        </div>
+        <div className="team-info">
+          <h3 className="team-name">CHAHMI Nouhaila</h3>
+          <p className="team-role">Développeuse & Spécialiste IA</p>
+        </div>
+      </div>
+
+      {/* Membre 3 - Kawtar */}
+      <div className="team-card">
+        <div className="team-image-wrapper">
+             <img 
+    src="https://ui-avatars.com/api/?name=Kawtar+Gantouh&background=9B7EBD&color=ffffff&size=400&bold=true&font-size=0.4&rounded=false"
+    alt="GANTOUH Kawtar"
+    className="team-image"
+  />
+          <div className="team-overlay">
+            <a 
+              href="https://www.linkedin.com/in/kawtar-gantouh-67a002352" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="team-linkedin-btn"
+            >
+              <Linkedin size={24} />
+              <span>Voir le profil</span>
+            </a>
+          </div>
+        </div>
+        <div className="team-info">
+          <h3 className="team-name">GANTOUH Kawtar</h3>
+          <p className="team-role">Développeuse & Analyste</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+      {/* Section À propos */}
       <section 
         id="about" 
         style={{
           padding: '5rem 0',
-          backgroundColor: 'var(--background)',
+          background: 'var(--bg-primary)',
+          position: 'relative'
         }}
       >
-        <div className="container">
-          <div style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            textAlign: 'center'
-          }}>
-            <span style={{
-              display: 'inline-block',
-              padding: 'var(--spacing-sm) var(--spacing-md)',
-              backgroundColor: 'var(--accent-light)',
-              color: 'var(--secondary)',
-              borderRadius: 'var(--radius-full)',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              marginBottom: 'var(--spacing-lg)'
-            }}>
+        <div className="features-container">
+          <div className="features-header">
+            <span className="features-badge">
               À Propos
             </span>
 
-            <h2 style={{
-              fontSize: '2.5rem',
-              fontWeight: '800',
-              color: 'var(--text-primary)',
-              marginBottom: 'var(--spacing-xl)'
-            }}>
+            <h2 className="features-title">
               Notre Mission
             </h2>
 
-            <p style={{
-              fontSize: '1.125rem',
-              color: 'var(--text-secondary)',
-              lineHeight: '1.8',
-              marginBottom: 'var(--spacing-lg)'
-            }}>
+            <p className="features-description">
               Smart Glove est né de la volonté de rendre la technologie 
               de reconnaissance de gestes accessible à tous. Notre équipe 
               de chercheurs et développeurs passionnés travaille sans 
@@ -79,12 +261,7 @@ const Home = () => {
               l'intelligence artificielle.
             </p>
 
-            <p style={{
-              fontSize: '1.125rem',
-              color: 'var(--text-secondary)',
-              lineHeight: '1.8',
-              marginBottom: 'var(--spacing-2xl)'
-            }}>
+            <p className="features-description" style={{ marginTop: 'var(--spacing-lg)' }}>
               Grâce à notre système de deep learning avancé, nous avons 
               développé une plateforme capable de reconnaître plus de 10 
               gestes différents avec une précision supérieure à 95%, 
@@ -92,241 +269,49 @@ const Home = () => {
               de l'accessibilité, de la robotique et de l'interaction 
               homme-machine.
             </p>
+          </div>
 
-            {/* Statistiques visuelles */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 'var(--spacing-xl)',
-              marginTop: 'var(--spacing-2xl)'
-            }}>
-              <div style={{
-                padding: 'var(--spacing-xl)',
-                backgroundColor: 'var(--background-gray)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-sm)'
-              }}>
-                <div style={{
-                  fontSize: '3rem',
-                  marginBottom: 'var(--spacing-sm)'
-                }}>
-                  🎓
-                </div>
-                <div style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '700',
-                  color: 'var(--primary)',
-                  marginBottom: 'var(--spacing-xs)'
-                }}>
-                  Deep Learning
-                </div>
-                <div style={{
-                  fontSize: '0.875rem',
-                  color: 'var(--text-secondary)'
-                }}>
-                  Réseaux de neurones CNN
-                </div>
+          {/* Statistiques visuelles */}
+          <div className="features-grid" style={{ marginTop: 'var(--spacing-3xl)' }}>
+            <div className="feature-card">
+              <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #6FF0E2 0%, #00D4AA 100%)' }}>
+                <GraduationCap size={32} />
               </div>
+              <h3 className="feature-title">
+                Deep Learning
+              </h3>
+              <p className="feature-description">
+                Réseaux de neurones CNN pour une reconnaissance précise et rapide des gestes
+              </p>
+            </div>
 
-              <div style={{
-                padding: 'var(--spacing-xl)',
-                backgroundColor: 'var(--background-gray)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-sm)'
-              }}>
-                <div style={{
-                  fontSize: '3rem',
-                  marginBottom: 'var(--spacing-sm)'
-                }}>
-                  ⚙️
-                </div>
-                <div style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '700',
-                  color: 'var(--primary)',
-                  marginBottom: 'var(--spacing-xs)'
-                }}>
-                  Flask + React
-                </div>
-                <div style={{
-                  fontSize: '0.875rem',
-                  color: 'var(--text-secondary)'
-                }}>
-                  Architecture moderne
-                </div>
+            <div className="feature-card">
+              <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #6FF0E2 0%, #00D4AA 100%)' }}>
+                <Settings size={32} />
               </div>
+              <h3 className="feature-title">
+                Flask + React
+              </h3>
+              <p className="feature-description">
+                Architecture moderne combinant puissance backend et interface réactive
+              </p>
+            </div>
 
-              <div style={{
-                padding: 'var(--spacing-xl)',
-                backgroundColor: 'var(--background-gray)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-sm)'
-              }}>
-                <div style={{
-                  fontSize: '3rem',
-                  marginBottom: 'var(--spacing-sm)'
-                }}>
-                  🚀
-                </div>
-                <div style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '700',
-                  color: 'var(--primary)',
-                  marginBottom: 'var(--spacing-xs)'
-                }}>
-                  Open Source
-                </div>
-                <div style={{
-                  fontSize: '0.875rem',
-                  color: 'var(--text-secondary)'
-                }}>
-                  Communauté active
-                </div>
+            <div className="feature-card">
+              <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #6FF0E2 0%, #00D4AA 100%)' }}>
+                <Zap size={32} />
               </div>
+              <h3 className="feature-title">
+                Open Source
+              </h3>
+              <p className="feature-description">
+                Communauté active contribuant à l'amélioration continue du projet
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section Contact */}
-      <section 
-        id="contact" 
-        style={{
-          padding: '5rem 0',
-          backgroundColor: 'var(--background-gray)',
-        }}
-      >
-        <div className="container">
-          <div style={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            textAlign: 'center'
-          }}>
-            <span style={{
-              display: 'inline-block',
-              padding: 'var(--spacing-sm) var(--spacing-md)',
-              backgroundColor: 'var(--primary-light)',
-              color: 'var(--secondary)',
-              borderRadius: 'var(--radius-full)',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              marginBottom: 'var(--spacing-lg)'
-            }}>
-              Contact
-            </span>
-
-            <h2 style={{
-              fontSize: '2.5rem',
-              fontWeight: '800',
-              color: 'var(--text-primary)',
-              marginBottom: 'var(--spacing-lg)'
-            }}>
-              Une Question ? Contactez-nous !
-            </h2>
-
-            <p style={{
-              fontSize: '1.125rem',
-              color: 'var(--text-secondary)',
-              marginBottom: 'var(--spacing-2xl)'
-            }}>
-              Notre équipe est là pour répondre à toutes vos questions 
-              concernant Smart Glove.
-            </p>
-
-            {/* Cartes de contact */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: 'var(--spacing-lg)',
-              marginBottom: 'var(--spacing-2xl)'
-            }}>
-              <div style={{
-                padding: 'var(--spacing-xl)',
-                backgroundColor: 'var(--background)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-md)',
-                textAlign: 'center'
-              }}>
-                <div style={{
-                  fontSize: '2.5rem',
-                  marginBottom: 'var(--spacing-md)'
-                }}>
-                  📧
-                </div>
-                <div style={{
-                  fontSize: '1.125rem',
-                  fontWeight: '600',
-                  color: 'var(--text-primary)',
-                  marginBottom: 'var(--spacing-sm)'
-                }}>
-                  Email
-                </div>
-                <a 
-                  href="mailto:contact@smartglove.com"
-                  style={{
-                    color: 'var(--primary)',
-                    textDecoration: 'none',
-                    fontSize: '0.875rem'
-                  }}
-                >
-                  contact@smartglove.com
-                </a>
-              </div>
-
-              <div style={{
-                padding: 'var(--spacing-xl)',
-                backgroundColor: 'var(--background)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-md)',
-                textAlign: 'center'
-              }}>
-                <div style={{
-                  fontSize: '2.5rem',
-                  marginBottom: 'var(--spacing-md)'
-                }}>
-                  📱
-                </div>
-                <div style={{
-                  fontSize: '1.125rem',
-                  fontWeight: '600',
-                  color: 'var(--text-primary)',
-                  marginBottom: 'var(--spacing-sm)'
-                }}>
-                  Téléphone
-                </div>
-                <a 
-                  href="tel:+212600000000"
-                  style={{
-                    color: 'var(--primary)',
-                    textDecoration: 'none',
-                    fontSize: '0.875rem'
-                  }}
-                >
-                  +212 6 00 00 00 00
-                </a>
-              </div>
-            </div>
-
-            <a 
-              href="mailto:contact@smartglove.com"
-              className="btn btn-primary btn-large"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'var(--spacing-sm)'
-              }}
-            >
-              <span>✉️</span>
-              <span>Envoyer un Message</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };
