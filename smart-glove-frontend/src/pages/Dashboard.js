@@ -1,31 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Menu, 
-  X, 
-  Sparkles, 
-  Rocket, 
-  BookOpen, 
-  Home as HomeIcon,
-  Target,
-  Volume2,
-  VolumeX,
-  Settings as SettingsIcon,
-  Mic,
-  BarChart3,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
-  Hand,
-  Users 
+  Menu, X, Sparkles, Rocket, BookOpen, Home as HomeIcon,
+  Target, Volume2, VolumeX, Settings as SettingsIcon,
+  Mic, Clock, AlertTriangle, Hand, Users 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
 import apiService from '../services/api';
 import ttsService from '../services/ttsService';
 import '../styles/dashboard.css';
 
 // ============================================
-// NAVBAR (même style que Home.js)
+// FONCTION AMÉLIORÉE POUR LES IMAGES
+// ============================================
+const getGestureImage = (label) => {
+  if (!label) {
+    console.warn('⚠️ Label vide, utilisation image par défaut');
+    return '/gestures/ok.png';
+  }
+  
+  // Normaliser le label (minuscules, sans espaces)
+  const normalizedLabel = label.toString().toLowerCase().trim();
+  
+  console.log('🔍 Recherche image pour label:', label, '→ normalisé:', normalizedLabel);
+  
+  // Mapping exact des labels vers les fichiers
+  const gestureMap = {
+    'a': 'A.png',
+    'b': 'B.png',
+    'c': 'C.png',
+    'd': 'D.png',
+    'e': 'E.png',
+    'l': 'L.png',
+    'merci': 'merci.png',
+    'ok': 'ok.png',
+    'stop': 'stop.png',
+  };
+  
+  // Chercher dans le mapping
+  if (gestureMap[normalizedLabel]) {
+    const imagePath = `/gestures/${gestureMap[normalizedLabel]}`;
+    console.log('✅ Image trouvée dans mapping:', imagePath);
+    return imagePath;
+  }
+  
+  // Si pas trouvé, essayer directement avec le nom du label
+  const directPath = `/gestures/${normalizedLabel}.png`;
+  console.log('⚠️ Pas dans mapping, essai direct:', directPath);
+  return directPath;
+};
+
+// ============================================
+// NAVBAR
 // ============================================
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,23 +60,16 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLinkClick = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const handleLinkClick = () => setIsMobileMenuOpen(false);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Logo */}
         <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
           <span className="navbar-logo-icon">
             <Sparkles size={28} />
@@ -59,48 +77,31 @@ const Navbar = () => {
           <span>Smart Glove</span>
         </Link>
 
-        {/* Menu Desktop */}
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
           <li>
-            <Link 
-              to="/" 
-              className="navbar-link" 
-              onClick={handleLinkClick}
-            >
+            <Link to="/" className="navbar-link" onClick={handleLinkClick}>
               <HomeIcon size={18} />
               <span>Accueil</span>
             </Link>
           </li>
           <li>
-            <a 
-              href="/#features" 
-              className="navbar-link"
-              onClick={handleLinkClick}
-            >
+            <a href="/#features" className="navbar-link" onClick={handleLinkClick}>
               <Sparkles size={18} />
               <span>Fonctionnalités</span>
             </a>
           </li>
           <li>
-            <a 
-              href="/#about" 
-              className="navbar-link"
-              onClick={handleLinkClick}
-            >
+            <a href="/#about" className="navbar-link" onClick={handleLinkClick}>
               <BookOpen size={18} />
               <span>À propos</span>
             </a>
           </li>
           <li>
-  <a 
-    href="/#team" 
-    className="navbar-link"
-    onClick={handleLinkClick}
-  >
-    <Users size={18} />
-    <span>Équipe</span>
-  </a>
-</li>
+            <a href="/#team" className="navbar-link" onClick={handleLinkClick}>
+              <Users size={18} />
+              <span>Équipe</span>
+            </a>
+          </li>
           <li>
             <Link to="/dashboard" onClick={handleLinkClick}>
               <button className="hero-button hero-button-primary" style={{
@@ -114,12 +115,7 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {/* Bouton Menu Mobile */}
-        <button 
-          className="navbar-toggle" 
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
-        >
+        <button className="navbar-toggle" onClick={toggleMobileMenu} aria-label="Toggle menu">
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -132,7 +128,6 @@ const Navbar = () => {
 // ============================================
 const Dashboard = () => {
   // ========== ÉTATS ==========
-  
   const [prediction, setPrediction] = useState(null);
   const [history, setHistory] = useState([]);
   const [stats, setStats] = useState(null);
@@ -147,26 +142,7 @@ const Dashboard = () => {
   
   const lastPredictionRef = useRef(null);
 
-  // ========== MAPPING DES LABELS VERS LES IMAGES ==========
-  const getGestureImage = (label) => {
-    const gestureMap = {
-      'A': 'A.png',
-      'B': 'B.png',
-      'C': 'C.png',
-      'D': 'D.png',
-      'E': 'E.png',
-      'L': 'L.png',
-      'merci': 'merci.png',
-      'ok': 'ok.png',
-      'stop': 'stop.png',
-    };
-    
-    const fileName = gestureMap[label] || 'ok.png';
-    return `/gestures/${fileName}`;
-  };
-
   // ========== EFFETS ==========
-  
   useEffect(() => {
     checkApiConnection();
     loadStatsFromApi();
@@ -188,7 +164,6 @@ const Dashboard = () => {
   }, [apiStatus, isTTSEnabled, messageMode, voiceGender]);
 
   // ========== FONCTIONS ==========
-
   const checkApiConnection = async () => {
     const result = await apiService.testConnection();
     if (result.success) {
@@ -216,7 +191,8 @@ const Dashboard = () => {
         const predictionSignature = newPrediction.timestamp || Date.now();
         
         if (lastPredictionRef.current !== predictionSignature) {
-          console.log('🆕 Nouvelle prédiction:', newPrediction.predicted_label, newPrediction.confidence.toFixed(2) + '%');
+          console.log('🆕 Nouvelle prédiction:', newPrediction.predicted_label, 
+                      newPrediction.confidence.toFixed(2) + '%');
           
           const predictionData = {
             label: newPrediction.predicted_label,
@@ -239,7 +215,6 @@ const Dashboard = () => {
           loadStatsFromApi();
         }
       }
-
     } catch (err) {
       if (err.response?.status !== 404) {
         console.error('❌ Erreur:', err);
@@ -248,7 +223,6 @@ const Dashboard = () => {
   };
 
   // ========== CONTRÔLES TTS ==========
-
   const toggleTTS = () => {
     const newState = !isTTSEnabled;
     setIsTTSEnabled(newState);
@@ -269,8 +243,17 @@ const Dashboard = () => {
     ttsService.test();
   };
 
-  // ========== RENDER ==========
+  // Fonction de debug
+  const debugImages = () => {
+    console.log('📁 Images disponibles dans /public/gestures/:');
+    const labels = ['A', 'B', 'C', 'D', 'E', 'L', 'merci', 'ok', 'stop'];
+    labels.forEach(label => {
+      const imagePath = getGestureImage(label);
+      console.log(`  ${label} → ${imagePath}`);
+    });
+  };
 
+  // ========== RENDER ==========
   return (
     <div className="dashboard-page">
       <Navbar />
@@ -280,7 +263,11 @@ const Dashboard = () => {
         {/* En-tête du Dashboard */}
         <div className="dashboard-header">
           <h1 className="dashboard-title">
-            <Target size={40} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+            <Target size={40} style={{ 
+              display: 'inline-block', 
+              verticalAlign: 'middle', 
+              marginRight: '0.5rem' 
+            }} />
             Reconnaissance de Gestes
           </h1>
           <p className="dashboard-subtitle">
@@ -344,7 +331,11 @@ const Dashboard = () => {
             {showSettings && (
               <div className="tts-settings-panel">
                 <h3 className="settings-title">
-                  <SettingsIcon size={24} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+                  <SettingsIcon size={24} style={{ 
+                    display: 'inline-block', 
+                    verticalAlign: 'middle', 
+                    marginRight: '0.5rem' 
+                  }} />
                   Paramètres Audio
                 </h3>
                 
@@ -396,9 +387,12 @@ const Dashboard = () => {
                 <div className="settings-preview">
                   <p>
                     <strong>Configuration actuelle :</strong><br/>
-                    Mode : <span className="preview-value">{messageMode === 'short' ? 'Court' : 'Détaillé'}</span><br/>
+                    Mode : <span className="preview-value">
+                      {messageMode === 'short' ? 'Court' : 'Détaillé'}
+                    </span><br/>
                     Voix : <span className="preview-value">
-                      {voiceGender === 'male' ? 'Masculine' : voiceGender === 'female' ? 'Féminine' : 'Toutes'}
+                      {voiceGender === 'male' ? 'Masculine' : 
+                       voiceGender === 'female' ? 'Féminine' : 'Toutes'}
                     </span>
                   </p>
                 </div>
@@ -412,33 +406,11 @@ const Dashboard = () => {
           <div className="dashboard-stats-grid">
             <div className="stat-card">
               <div className="stat-icon">
-                <BarChart3 size={32} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{stats.total_predictions || 0}</div>
-                <div className="stat-label">Prédictions Totales</div>
-              </div>
-            </div>
-
-            <div className="stat-card">
-              <div className="stat-icon">
                 <Target size={32} />
               </div>
               <div className="stat-content">
                 <div className="stat-value">{stats.last_prediction || '---'}</div>
                 <div className="stat-label">Dernier Geste</div>
-              </div>
-            </div>
-
-            <div className="stat-card">
-              <div className="stat-icon">
-                <CheckCircle size={32} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {stats.confidence ? `${stats.confidence.toFixed(2)}%` : '---'}
-                </div>
-                <div className="stat-label">Confiance Moyenne</div>
               </div>
             </div>
           </div>
@@ -462,8 +434,12 @@ const Dashboard = () => {
                 <img 
                   src={prediction.image} 
                   alt={prediction.label}
+                  onLoad={() => {
+                    console.log('✅ Image chargée:', prediction.image);
+                  }}
                   onError={(e) => {
-                    console.error('Image non trouvée:', prediction.image);
+                    console.error('❌ Erreur chargement:', prediction.image);
+                    console.log('🔄 Fallback vers ok.png');
                     e.target.src = '/gestures/ok.png';
                   }}
                 />
@@ -473,29 +449,12 @@ const Dashboard = () => {
                 {prediction.label}
               </div>
               
-              <div className="current-prediction-confidence">
-                <div className="confidence-bar-wrapper">
-                  <div className="confidence-bar">
-                    <div 
-                      className="confidence-fill"
-                      style={{ 
-                        width: `${prediction.confidence}%`,
-                        background: prediction.confidence >= 90 
-                          ? 'linear-gradient(90deg, #10B981, #34D399)' 
-                          : prediction.confidence >= 70 
-                          ? 'linear-gradient(90deg, #F59E0B, #FBBF24)' 
-                          : 'linear-gradient(90deg, #EF4444, #F87171)'
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="confidence-value">
-                  {prediction.confidence.toFixed(1)}%
-                </div>
-              </div>
-              
               <div className="current-prediction-time">
-                <Clock size={18} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+                <Clock size={18} style={{ 
+                  display: 'inline-block', 
+                  verticalAlign: 'middle', 
+                  marginRight: '0.5rem' 
+                }} />
                 {prediction.timestamp}
               </div>
             </div>

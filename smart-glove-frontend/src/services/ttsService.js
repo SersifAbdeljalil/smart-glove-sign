@@ -7,15 +7,121 @@ class TTSService {
     this.isEnabled = true;
     this.lastSpokenLabel = null;
     this.lastSpokenTime = 0;
-    this.minTimeBetweenSpeech = 2000; // 2 secondes minimum entre chaque annonce
+    this.minTimeBetweenSpeech = 2000;
     
-    // Options de configuration
-    this.messageMode = 'short'; // 'short' ou 'detailed'
-    this.voiceGender = 'all'; // 'male', 'female', ou 'all'
+    this.messageMode = 'short';
+    this.voiceGender = 'all';
     this.availableVoices = { male: [], female: [] };
     
-    // Initialiser les voix
     this.initVoices();
+  }
+
+  /**
+   * Mapping manuel des voix connues par genre
+   */
+  getVoiceGenderMap() {
+    return {
+      // Voix françaises
+      'Thomas': 'male',
+      'Nicolas': 'male',
+      'Daniel': 'male',
+      'Amélie': 'female',
+      'Virginie': 'female',
+      'Audrey': 'female',
+      
+      // Voix Google (Chrome/Android)
+      'Google français': 'female',
+      'Google Français': 'female',
+      'Google US English Male': 'male',
+      'Google US English Female': 'female',
+      'Google UK English Male': 'male',
+      'Google UK English Female': 'female',
+      
+      // Voix Microsoft (Edge/Windows)
+      'Microsoft David': 'male',
+      'Microsoft Mark': 'male',
+      'Microsoft Zira': 'female',
+      'Microsoft Julie': 'female',
+      'Microsoft Paul': 'male',
+      'Microsoft Hortense': 'female',
+      'Microsoft Claude': 'male',
+      'Microsoft Eloise': 'female',
+      
+      // Voix Apple (Safari/macOS/iOS)
+      'Thomas': 'male',
+      'Nicolas': 'male',
+      'Daniel': 'male',
+      'Audrey': 'female',
+      'Amélie': 'female',
+      'Virginie': 'female',
+      'Karen': 'female',
+      'Samantha': 'female',
+      'Alex': 'male',
+      'Fred': 'male',
+      
+      // Voix supplémentaires communes
+      'Yannick': 'male',
+      'Alain': 'male',
+      'Bruno': 'male',
+      'Céline': 'female',
+      'Marie': 'female',
+      'Chantal': 'female'
+    };
+  }
+
+  /**
+   * Déterminer le genre d'une voix
+   */
+  detectVoiceGender(voice) {
+    const voiceMap = this.getVoiceGenderMap();
+    
+    // 1. Chercher une correspondance exacte dans le mapping
+    for (const [name, gender] of Object.entries(voiceMap)) {
+      if (voice.name.includes(name)) {
+        return gender;
+      }
+    }
+    
+    // 2. Chercher par mots-clés dans le nom
+    const nameLower = voice.name.toLowerCase();
+    
+    const maleIndicators = [
+      'male', 'man', 'homme', 'boy', 'guy',
+      'masculin', 'masculino', 'maschile',
+      'thomas', 'nicolas', 'daniel', 'eric', 'paul',
+      'david', 'mark', 'alex', 'fred', 'bruno'
+    ];
+    
+    const femaleIndicators = [
+      'female', 'woman', 'femme', 'girl', 'lady',
+      'féminin', 'feminino', 'femminile',
+      'amelie', 'amélie', 'celine', 'céline', 'marie',
+      'julie', 'audrey', 'virginie', 'zira', 'karen',
+      'samantha', 'sara', 'sarah', 'alice', 'emma'
+    ];
+    
+    // Vérifier les indicateurs masculins
+    for (const indicator of maleIndicators) {
+      if (nameLower.includes(indicator)) {
+        return 'male';
+      }
+    }
+    
+    // Vérifier les indicateurs féminins
+    for (const indicator of femaleIndicators) {
+      if (nameLower.includes(indicator)) {
+        return 'female';
+      }
+    }
+    
+    // 3. Si aucune correspondance, utiliser des heuristiques
+    // Les voix se terminant par 'a' sont souvent féminines
+    if (voice.name.endsWith('a')) {
+      return 'female';
+    }
+    
+    // Par défaut, considérer comme neutre/féminin
+    return 'female';
   }
 
   /**
@@ -25,52 +131,30 @@ class TTSService {
     const loadVoices = () => {
       const voices = this.synth.getVoices();
       
-      // Réinitialiser les listes
       this.availableVoices.male = [];
       this.availableVoices.female = [];
       
-      // Catégoriser les voix par genre
       voices.forEach(voice => {
-        // Voix françaises en priorité, puis anglaises
+        // Filtrer les voix françaises et anglaises
         if (voice.lang.startsWith('fr-') || voice.lang.startsWith('en-')) {
-          // Détection basique du genre par le nom de la voix
-          const nameLower = voice.name.toLowerCase();
+          const gender = this.detectVoiceGender(voice);
           
-          // Mots-clés pour voix féminines
-          const femaleKeywords = ['female', 'woman', 'femme', 'aria', 'jenny', 'sara', 
-                                   'sarah', 'amelie', 'celine', 'julie', 'marie', 
-                                   'alice', 'emma', 'lea', 'manon', 'sophie'];
-          
-          // Mots-clés pour voix masculines
-          const maleKeywords = ['male', 'man', 'homme', 'guy', 'eric', 'thomas',
-                                'nicolas', 'pierre', 'paul', 'jean', 'marc',
-                                'antoine', 'laurent', 'david', 'alex'];
-          
-          const isFemale = femaleKeywords.some(kw => nameLower.includes(kw));
-          const isMale = maleKeywords.some(kw => nameLower.includes(kw));
-          
-          if (isFemale) {
-            this.availableVoices.female.push(voice);
-          } else if (isMale) {
+          if (gender === 'male') {
             this.availableVoices.male.push(voice);
           } else {
-            // Si incertain, ajouter aux deux catégories
             this.availableVoices.female.push(voice);
-            this.availableVoices.male.push(voice);
           }
         }
       });
       
-      // Sélectionner une voix par défaut
       this.updateVoiceSelection();
       
       console.log('🔊 Voix disponibles:');
-      console.log('   Féminines:', this.availableVoices.female.length);
-      console.log('   Masculines:', this.availableVoices.male.length);
+      console.log('   Féminines:', this.availableVoices.female.map(v => v.name));
+      console.log('   Masculines:', this.availableVoices.male.map(v => v.name));
       console.log('   Voix sélectionnée:', this.selectedVoice?.name || 'Défaut');
     };
 
-    // Les voix peuvent être chargées de manière asynchrone
     if (this.synth.getVoices().length > 0) {
       loadVoices();
     }
@@ -89,62 +173,42 @@ class TTSService {
     } else if (this.voiceGender === 'male') {
       voicePool = this.availableVoices.male;
     } else {
-      // 'all' - mélanger les deux
       voicePool = [...this.availableVoices.female, ...this.availableVoices.male];
     }
     
-    // Sélectionner une voix française en priorité
+    // Priorité aux voix françaises
     this.selectedVoice = voicePool.find(v => v.lang.startsWith('fr-')) ||
                          voicePool.find(v => v.lang.startsWith('en-')) ||
                          voicePool[0] ||
                          this.synth.getVoices()[0];
     
-    console.log('🔊 Voix mise à jour:', this.selectedVoice?.name, '(' + this.voiceGender + ')');
+    console.log('🔊 Voix sélectionnée:', this.selectedVoice?.name, '(' + this.voiceGender + ')');
   }
 
   /**
-   * Obtenir le message selon le mode (court ou détaillé)
+   * Obtenir le message selon le mode
    */
   getGestureMessage(label) {
     if (this.messageMode === 'short') {
-      // Mode court : juste le label
       const shortMessages = {
-        'A': 'A',
-        'B': 'B',
-        'C': 'C',
-        'D': 'D',
-        'E': 'E',
-        'L': 'L',
-        'merci': 'Merci',
-        'ok': 'OK',
-        'stop': 'Stop',
+        'A': 'A', 'B': 'B', 'C': 'C', 'D': 'D', 'E': 'E', 'L': 'L',
+        'merci': 'Merci', 'ok': 'OK', 'stop': 'Stop',
       };
       return shortMessages[label] || label;
     } else {
-      // Mode détaillé : phrase complète
       const detailedMessages = {
-        'A': 'Lettre A détectée',
-        'B': 'Lettre B détectée',
-        'C': 'Lettre C détectée',
-        'D': 'Lettre D détectée',
-        'E': 'Lettre E détectée',
-        'L': 'Lettre L détectée',
-        'merci': 'Geste merci détecté',
-        'ok': 'Geste OK détecté',
-        'stop': 'Geste stop détecté',
+        'A': 'Lettre A détectée', 'B': 'Lettre B détectée', 'C': 'Lettre C détectée',
+        'D': 'Lettre D détectée', 'E': 'Lettre E détectée', 'L': 'Lettre L détectée',
+        'merci': 'Geste merci détecté', 'ok': 'Geste OK détecté', 'stop': 'Geste stop détecté',
       };
       return detailedMessages[label] || `${label}`;
     }
   }
 
-  /**
-   * Vérifier si on peut parler (éviter les répétitions trop rapides)
-   */
   canSpeak(label) {
     const now = Date.now();
     const timeSinceLastSpeech = now - this.lastSpokenTime;
     
-    // Si c'est le même geste et qu'il s'est passé moins de X secondes, ne pas répéter
     if (label === this.lastSpokenLabel && timeSinceLastSpeech < this.minTimeBetweenSpeech) {
       return false;
     }
@@ -152,38 +216,24 @@ class TTSService {
     return true;
   }
 
-  /**
-   * Annoncer un geste détecté
-   */
   speakGesture(label, confidence = 0) {
-    // Vérifier si TTS est activé
-    if (!this.isEnabled) {
+    if (!this.isEnabled || !this.canSpeak(label)) {
       return;
     }
 
-    // Vérifier si on peut parler (éviter spam)
-    if (!this.canSpeak(label)) {
-      return;
-    }
-
-    // Annuler toute parole en cours
     this.synth.cancel();
 
-    // Créer l'énoncé
     const message = this.getGestureMessage(label);
     const utterance = new SpeechSynthesisUtterance(message);
 
-    // Configurer la voix
     if (this.selectedVoice) {
       utterance.voice = this.selectedVoice;
     }
 
-    // Paramètres de la voix
-    utterance.rate = 1.0;    // Vitesse normale
-    utterance.pitch = 1.0;   // Hauteur normale
-    utterance.volume = 1.0;  // Volume maximum
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
 
-    // Callbacks
     utterance.onstart = () => {
       console.log(`🔊 Annonce: "${message}" (${this.selectedVoice?.name})`);
     };
@@ -192,17 +242,12 @@ class TTSService {
       console.error('❌ Erreur TTS:', event.error);
     };
 
-    // Parler
     this.synth.speak(utterance);
 
-    // Mettre à jour le tracking
     this.lastSpokenLabel = label;
     this.lastSpokenTime = Date.now();
   }
 
-  /**
-   * Changer le mode de message (court/détaillé)
-   */
   setMessageMode(mode) {
     if (mode === 'short' || mode === 'detailed') {
       this.messageMode = mode;
@@ -210,9 +255,6 @@ class TTSService {
     }
   }
 
-  /**
-   * Changer le genre de voix
-   */
   setVoiceGender(gender) {
     if (gender === 'male' || gender === 'female' || gender === 'all') {
       this.voiceGender = gender;
@@ -221,29 +263,18 @@ class TTSService {
     }
   }
 
-  /**
-   * Activer/Désactiver le TTS
-   */
   setEnabled(enabled) {
     this.isEnabled = enabled;
-    
     if (!enabled) {
-      this.synth.cancel(); // Arrêter toute parole en cours
+      this.synth.cancel();
     }
-    
     console.log(`🔊 TTS ${enabled ? 'activé' : 'désactivé'}`);
   }
 
-  /**
-   * Arrêter toute parole en cours
-   */
   stop() {
     this.synth.cancel();
   }
 
-  /**
-   * Tester le TTS
-   */
   test() {
     const testMessage = this.messageMode === 'short' ? 'A' : 'Test de synthèse vocale';
     const utterance = new SpeechSynthesisUtterance(testMessage);
@@ -253,12 +284,9 @@ class TTSService {
     }
     
     this.synth.speak(utterance);
-    console.log('🔊 Test TTS:', testMessage);
+    console.log('🔊 Test TTS:', testMessage, '- Voix:', this.selectedVoice?.name);
   }
 
-  /**
-   * Obtenir les informations de configuration actuelle
-   */
   getConfig() {
     return {
       enabled: this.isEnabled,
@@ -271,8 +299,21 @@ class TTSService {
       }
     };
   }
+
+  /**
+   * Obtenir la liste des voix disponibles avec leurs genres détectés
+   */
+  listVoices() {
+    const voices = this.synth.getVoices();
+    return voices
+      .filter(v => v.lang.startsWith('fr-') || v.lang.startsWith('en-'))
+      .map(v => ({
+        name: v.name,
+        lang: v.lang,
+        gender: this.detectVoiceGender(v)
+      }));
+  }
 }
 
-// Exporter une instance unique (singleton)
 const ttsService = new TTSService();
 export default ttsService;
