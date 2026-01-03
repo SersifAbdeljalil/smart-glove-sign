@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Smart Glove Logo](public/gestures/LOGO.png)
+![Smart Glove Logo](smart-glove-frontend/public/gestures/LOGO.png)
 
 **Real-time AI-powered gesture recognition system for American Sign Language (ASL)**
 
@@ -12,7 +12,7 @@
 [![Machine Learning](https://img.shields.io/badge/ML-Random%20Forest-FF6F00?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![ESP32](https://img.shields.io/badge/ESP32-Hardware-E7352C?style=flat&logo=espressif&logoColor=white)](https://www.espressif.com/)
 
-![Smart Glove Hardware](public/gestures/reel.png)
+![Smart Glove Hardware](smart-glove-frontend/public/gestures/reel.png)
 
 </div>
 
@@ -113,11 +113,11 @@ Sensors → ESP32 → POST /predict → Random Forest → Prediction
 
 ### Confusion Matrix
 
-![Confusion Matrix](../confusion_matrix.png)
+![Confusion Matrix](confusion_matrix.png)
 
 ### Feature Importance
 
-![Feature Importance](../feature_importance.png)
+![Feature Importance](feature_importance.png)
 
 ### Key Metrics
 
@@ -214,6 +214,11 @@ npm install
 # - axios (HTTP client)
 ```
 
+**Note:** After installation, return to the root directory:
+```bash
+cd ..
+```
+
 ---
 
 ## Usage
@@ -221,7 +226,7 @@ npm install
 ### Step 1: Start Flask Server
 
 ```bash
-# In the root directory
+# From the root directory (smart-glove/)
 python glove_predictor.py
 ```
 
@@ -372,7 +377,7 @@ Get system statistics
 <table>
 <tr>
 <td align="center">
-<img src="public/gestures/SERSIF Abdeljalil.jpg" width="150px" alt="Abdeljalil SERSIF" style="border-radius: 50%;"/><br/>
+<img src="smart-glove-frontend/public/gestures/SERSIF Abdeljalil.jpg" width="150px" alt="Abdeljalil SERSIF" style="border-radius: 50%;"/><br/>
 <b>SERSIF Abdeljalil</b><br/>
 <i>Full Stack Developer</i><br/>
 <a href="https://www.linkedin.com/in/abdeljalil-sersif">
