@@ -421,7 +421,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Master's program in Embedded Systems and IoT
 - American Sign Language (ASL) community
 - Open-source libraries and frameworks used in this project
 
