@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Smart Glove Logo](smart-glove-frontend/public/gestures/LOGO.png)
+<img src="smart-glove-frontend/public/gestures/LOGO.png" alt="Smart Glove Logo" width="200"/>
 
 **Real-time AI-powered gesture recognition system for American Sign Language (ASL)**
 
@@ -12,13 +12,13 @@
 [![Machine Learning](https://img.shields.io/badge/ML-Random%20Forest-FF6F00?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![ESP32](https://img.shields.io/badge/ESP32-Hardware-E7352C?style=flat&logo=espressif&logoColor=white)](https://www.espressif.com/)
 
-![Smart Glove Hardware](smart-glove-frontend/public/gestures/reel.png)
+<img src="smart-glove-frontend/public/gestures/reel.png" alt="Smart Glove Hardware" width="600"/>
 
 </div>
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 - [About](#about)
 - [Features](#features)
@@ -32,51 +32,51 @@
 
 ---
 
-## About
+## 🎯 About
 
 **Smart Glove** is an innovative real-time gesture recognition system designed to facilitate communication in American Sign Language (ASL). The project combines embedded hardware (ESP32), intelligent sensors, Machine Learning, and a modern web interface.
 
-### Recognized Gestures
+### 🤟 Recognized Gestures
 
 The system recognizes **9 distinct gestures**:
 - **Letters**: A, B, C, D, E, L
 - **Words**: OK, STOP, MERCI (Thank you)
 
-### Academic Context
+### 🎓 Academic Context
 
 Project developed as part of the Master's program in Embedded Systems and IoT - Semester 3
 
 ---
 
-## Features
+## ✨ Features
 
-### AI & Machine Learning
-- Random Forest classifier with 9 classes
-- Overall accuracy: **>95%**
-- Real-time prediction (<100ms)
-- Manually labeled dataset (360+ samples)
+### 🤖 AI & Machine Learning
+- ✅ Random Forest classifier with 9 classes
+- ✅ Overall accuracy: **>95%**
+- ✅ Real-time prediction (<100ms)
+- ✅ Manually labeled dataset (360+ samples)
 
-### Embedded Hardware
-- **ESP32** microcontroller
-- **3 flex sensors** (thumb, index, middle finger)
-- **MPU6050** (6-axis gyroscope + accelerometer)
-- Real-time WiFi communication
+### 🔧 Embedded Hardware
+- ✅ **ESP32** microcontroller
+- ✅ **3 flex sensors** (thumb, index, middle finger)
+- ✅ **MPU6050** (6-axis gyroscope + accelerometer)
+- ✅ Real-time WiFi communication
 
-### User Interface
-- Modern responsive React dashboard
-- **Integrated text-to-speech (TTS)**
-- Real-time prediction visualization
-- Detailed history and statistics
-- Futuristic design with glassmorphism effects
+### 🎨 User Interface
+- ✅ Modern responsive React dashboard
+- ✅ **Integrated text-to-speech (TTS)**
+- ✅ Real-time prediction visualization
+- ✅ Detailed history and statistics
+- ✅ Futuristic design with glassmorphism effects
 
-### Audio Extension
-- Configurable voice announcements (short/detailed)
-- Voice gender selection (male/female/both)
-- Instant audio feedback for each gesture
+### 🔊 Audio Extension
+- ✅ Configurable voice announcements (short/detailed)
+- ✅ Voice gender selection (male/female/both)
+- ✅ Instant audio feedback for each gesture
 
 ---
 
-## System Architecture
+## 🏗️ System Architecture
 
 ### Overall Diagram
 
@@ -109,15 +109,15 @@ Sensors → ESP32 → POST /predict → Random Forest → Prediction
 
 ---
 
-## Model Performance
+## 📊 Model Performance
 
 ### Confusion Matrix
 
-![Confusion Matrix](confusion_matrix.png)
+<img src="confusion_matrix.png" alt="Confusion Matrix" width="500"/>
 
 ### Feature Importance
 
-![Feature Importance](feature_importance.png)
+<img src="feature_importance.png" alt="Feature Importance" width="500"/>
 
 ### Key Metrics
 
@@ -131,13 +131,13 @@ Sensors → ESP32 → POST /predict → Random Forest → Prediction
 ### Feature Analysis
 
 **Top 3 Most Important Sensors:**
-1. **flex_index** (28%)
-2. **flex_middle** (25%)
-3. **flex_thumb** (24%)
+1. 🥇 **flex_index** (28%)
+2. 🥈 **flex_middle** (25%)
+3. 🥉 **flex_thumb** (24%)
 
 ---
 
-## Installation
+## 🚀 Installation
 
 ### Prerequisites
 
@@ -208,25 +208,18 @@ cd smart-glove-frontend
 # Install Node.js dependencies
 npm install
 
-# Dependencies installed automatically:
-# - react, react-dom, react-router-dom
-# - lucide-react (icons)
-# - axios (HTTP client)
-```
-
-**Note:** After installation, return to the root directory:
-```bash
+# Return to root directory
 cd ..
 ```
 
 ---
 
-## Usage
+## 💻 Usage
 
 ### Step 1: Start Flask Server
 
 ```bash
-# From the root directory (smart-glove/)
+# From the root directory
 python glove_predictor.py
 ```
 
@@ -275,9 +268,11 @@ Use the Flask web interface at `http://localhost:5000` to send test data.
 4. Make gestures with the glove
 5. View predictions in real-time on the React dashboard
 
-### API Endpoints
+---
 
-#### POST /predict
+## 📡 API Endpoints
+
+### POST /predict
 Send sensor data for prediction
 
 **Request:**
@@ -303,14 +298,13 @@ Send sensor data for prediction
   "probabilities": {
     "A": 96.5,
     "B": 2.1,
-    "C": 0.8,
-    ...
+    "C": 0.8
   },
   "timestamp": "2026-01-03T14:30:45"
 }
 ```
 
-#### GET /latest-prediction
+### GET /latest-prediction
 Get the last prediction made
 
 **Response:**
@@ -322,7 +316,7 @@ Get the last prediction made
 }
 ```
 
-#### GET /stats
+### GET /stats
 Get system statistics
 
 **Response:**
@@ -333,15 +327,14 @@ Get system statistics
   "confidence": 95.3,
   "predictions_by_label": {
     "A": 20,
-    "B": 15,
-    ...
+    "B": 15
   }
 }
 ```
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 ### Backend
 - **Python 3.8+** - Core language
@@ -370,32 +363,35 @@ Get system statistics
 
 ---
 
-## Team
+## 👥 Team
 
 ### Development Team
 
 <table>
 <tr>
-<td align="center">
-<img src="smart-glove-frontend/public/gestures/SERSIF Abdeljalil.jpg" width="150px" alt="Abdeljalil SERSIF" style="border-radius: 50%;"/><br/>
+<td align="center" width="33%">
+<img src="smart-glove-frontend/public/gestures/SERSIF Abdeljalil.jpg" width="120px" alt="Abdeljalil SERSIF" style="border-radius: 50%;"/><br/>
 <b>SERSIF Abdeljalil</b><br/>
 <i>Full Stack Developer</i><br/>
+<sub>AI • IoT • Web</sub><br/><br/>
 <a href="https://www.linkedin.com/in/abdeljalil-sersif">
 <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white"/>
 </a>
 </td>
-<td align="center">
-<img src="https://ui-avatars.com/api/?name=Nouhaila+Chahmi&background=8B1538&color=ffffff&size=150&bold=true" width="150px" alt="Nouhaila CHAHMI" style="border-radius: 50%;"/><br/>
+<td align="center" width="33%">
+<img src="https://ui-avatars.com/api/?name=Nouhaila+Chahmi&background=8B1538&color=ffffff&size=120&bold=true" width="120px" alt="Nouhaila CHAHMI" style="border-radius: 50%;"/><br/>
 <b>CHAHMI Nouhaila</b><br/>
 <i>Full Stack Developer</i><br/>
+<sub>AI • IoT • Web</sub><br/><br/>
 <a href="https://www.linkedin.com/in/nouhaila-chahmi-485542351">
 <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white"/>
 </a>
 </td>
-<td align="center">
-<img src="https://ui-avatars.com/api/?name=Kawtar+Gantouh&background=9B7EBD&color=ffffff&size=150&bold=true" width="150px" alt="Kawtar GANTOUH" style="border-radius: 50%;"/><br/>
+<td align="center" width="33%">
+<img src="https://ui-avatars.com/api/?name=Kawtar+Gantouh&background=9B7EBD&color=ffffff&size=120&bold=true" width="120px" alt="Kawtar GANTOUH" style="border-radius: 50%;"/><br/>
 <b>GANTOUH Kawtar</b><br/>
 <i>Full Stack Developer</i><br/>
+<sub>AI • IoT • Web</sub><br/><br/>
 <a href="https://www.linkedin.com/in/kawtar-gantouh-67a002352">
 <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white"/>
 </a>
@@ -403,11 +399,9 @@ Get system statistics
 </tr>
 </table>
 
-**Roles**: AI, IoT, Web Development
-
 ---
 
-## Contributing
+## 🤝 Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -419,13 +413,13 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - Master's program in Embedded Systems and IoT
 - American Sign Language (ASL) community
