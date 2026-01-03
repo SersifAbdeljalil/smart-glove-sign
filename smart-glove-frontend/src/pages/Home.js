@@ -28,7 +28,7 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+const logoPath = '/gestures/LOGO.png';
   // Fermer le menu mobile lors du clic sur un lien
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -44,11 +44,18 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
-          <span className="navbar-logo-icon">
-            <Sparkles size={28} />
-          </span>
-          <span>Smart Glove</span>
-        </Link>
+  <img 
+    src="/gestures/LOGO.png" 
+    alt="Smart Glove Logo" 
+    className="navbar-logo-icon"
+    style={{
+      width: '40px',
+      height: '40px',
+      objectFit: 'contain'
+    }}
+  />
+  <span>Smart Glove</span>
+</Link>
 
         {/* Menu Desktop */}
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>

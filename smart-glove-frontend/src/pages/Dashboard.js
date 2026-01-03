@@ -20,7 +20,7 @@ const getGestureImage = (label) => {
   
   // Normaliser le label (minuscules, sans espaces)
   const normalizedLabel = label.toString().toLowerCase().trim();
-  
+  const logoPath = '/gestures/LOGO.png';
   console.log('🔍 Recherche image pour label:', label, '→ normalisé:', normalizedLabel);
   
   // Mapping exact des labels vers les fichiers
@@ -70,12 +70,19 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
-          <span className="navbar-logo-icon">
-            <Sparkles size={28} />
-          </span>
-          <span>Smart Glove</span>
-        </Link>
+       <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
+  <img 
+    src="/gestures/LOGO.png" 
+    alt="Smart Glove Logo" 
+    className="navbar-logo-icon"
+    style={{
+      width: '40px',
+      height: '40px',
+      objectFit: 'contain'
+    }}
+  />
+  <span>Smart Glove</span>
+</Link>
 
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
           <li>

@@ -702,3 +702,21 @@
     font-size: 4rem;
   }
 }
+.navbar-logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-base);
+}
+
+.navbar-logo-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(111, 240, 226, 0.3));
+}
+
+.navbar-logo:hover .navbar-logo-icon img {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 20px rgba(111, 240, 226, 0.5));
+}

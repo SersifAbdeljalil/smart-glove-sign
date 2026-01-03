@@ -66,7 +66,7 @@ const Hero = () => {
               {/* IMAGE RÉELLE */}
               <div className="hero-real-image">
                 <img 
-                  src="/gestures/image.png"
+                  src="/gestures/reel.png"
                   alt="Smart Glove - Système de reconnaissance de gestes"
                   className="hero-main-image"
                   style={{
