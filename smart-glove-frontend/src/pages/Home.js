@@ -139,9 +139,6 @@ const Home = () => {
 
       {/* Section Hero */}
       <Hero />
-
-      {/* Section Features */}
-      <Features />
 {/* Section Équipe */}
 <section className="team-section" id="team">
   <div className="team-container">
@@ -255,6 +252,9 @@ const Home = () => {
     </div>
   </div>
 </section>
+      {/* Section Features */}
+      <Features />
+
       {/* Section À propos */}
       <section 
         id="about" 
