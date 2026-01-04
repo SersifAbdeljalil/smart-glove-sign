@@ -80,22 +80,9 @@ Project developed as part of the Master's program in Embedded Systems and IoT - 
 
 ### Overall Diagram
 
-```
-┌─────────────────┐
-│   SMART GLOVE   │
-│   (ESP32)       │
-│  - 3 Flex       │
-│  - MPU6050      │
-└────────┬────────┘
-         │ WiFi
-         ▼
-┌─────────────────┐      ┌──────────────────┐
-│  FLASK SERVER   │◄────►│  REACT DASHBOARD │
-│  (Python)       │ HTTP │  (Frontend)      │
-│  - ML Model     │      │  - Visualization │
-│  - REST API     │      │  - TTS Audio     │
-└─────────────────┘      └──────────────────┘
-```
+<div align="center">
+<img src="smart-glove-frontend/public/gestures/System Architecture.png" alt="System Architecture Diagram" width="800"/>
+</div>
 
 ### Data Flow
 
@@ -170,6 +157,7 @@ smart-glove-sign/
     │   └── gestures/
     │       ├── LOGO.png        # Project logo
     │       ├── reel.png        # Glove photo
+    │       ├── System Architecture.png  # Architecture diagram
     │       └── [A-L, ok, stop, merci].png
     ├── src/
     │   ├── pages/
