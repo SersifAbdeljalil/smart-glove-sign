@@ -104,46 +104,6 @@ const Hero = () => {
               </div>
             </div>
           </div>
-
-          {/* Cartes Flottantes avec icônes Lucide - Position 1 (Haut Droite) */}
-          <div className="hero-floating-card hero-card-top-right">
-            <div className="hero-card-icon-wrapper">
-              <div className="hero-card-icon-bg hero-icon-cyan">
-                <Zap size={24} strokeWidth={2.5} />
-              </div>
-            </div>
-            <div className="hero-card-text">
-              <div className="hero-card-title-text">Détection Instantanée</div>
-              <div className="hero-card-subtitle-text">&lt; 50ms latence</div>
-            </div>
-          </div>
-
-          {/* Carte Position 2 (Haut Gauche) */}
-          <div className="hero-floating-card hero-card-top-left">
-            <div className="hero-card-icon-wrapper">
-              <div className="hero-card-icon-bg hero-icon-purple">
-                <Target size={24} strokeWidth={2.5} />
-              </div>
-            </div>
-            <div className="hero-card-text">
-              <div className="hero-card-title-text">Haute Précision</div>
-              <div className="hero-card-subtitle-text">95%+ accuracy</div>
-            </div>
-          </div>
-
-          {/* Carte Position 3 (Bas Droite) */}
-          <div className="hero-floating-card hero-card-bottom-right">
-            <div className="hero-card-icon-wrapper">
-              <div className="hero-card-icon-bg hero-icon-blue">
-                <Wifi size={24} strokeWidth={2.5} />
-              </div>
-            </div>
-            <div className="hero-card-text">
-              <div className="hero-card-title-text">WiFi Connected</div>
-              <div className="hero-card-subtitle-text">Real-time data</div>
-            </div>
-          </div>
-
           {/* Carte Position 4 (Bas Gauche) */}
           <div className="hero-floating-card hero-card-bottom-left">
             <div className="hero-card-icon-wrapper">
