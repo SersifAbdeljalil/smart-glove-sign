@@ -376,14 +376,12 @@ void loop() {
     Serial.printf("\n📤 Envois: %d | ❌ Erreurs: %d\n", successCount, errorCount);
     Serial.println("=================================");
   }
-  
-  // Envoi au serveur
   if (now - lastSendTime >= SEND_INTERVAL) {
     lastSendTime = now;
     sendDataToServer();
   }
   
-  // Recalibration (touche 'r')
+
   if (Serial.available() && Serial.read() == 'r') {
     calibrate();
   }
