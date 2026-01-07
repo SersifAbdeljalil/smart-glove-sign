@@ -548,9 +548,9 @@ if __name__ == '__main__':
     print("="*50)
     print("\n📁 Dossier datasets:", os.path.abspath(DATASET_FOLDER))
     print("\n🌐 Interface web: http://localhost:5000")
-    print("🌐 Adresse réseau: http://192.168.1.100:5000")
+    print("🌐 Adresse réseau: http://192.168.1.154:5000")
     print("\n⚠️ IMPORTANT: Modifie l'IP dans le code ESP32!")
-    print("   Ton adresse IP actuelle: 192.168.1.100")
+    print("   Ton adresse IP actuelle: 192.168.1.154")
     print("   Utilise cette adresse dans ton code ESP32\n")
     print("="*50 + "\n")
     
