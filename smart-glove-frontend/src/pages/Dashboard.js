@@ -332,7 +332,16 @@ const Dashboard = () => {
                 <Mic size={18} />
                 <span>Test</span>
               </button>
+              <div className="qr-code-container">
+              <img 
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smart-glove-sign-uf6f.vercel.app/" 
+                alt="QR Code vers le site"
+                className="qr-code-image"
+              />
+              <p className="qr-code-label">Scanner pour accéder</p>
             </div>
+            </div>
+            
 
             {/* Panneau de paramètres */}
             {showSettings && (

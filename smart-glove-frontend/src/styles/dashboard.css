@@ -720,3 +720,114 @@
   transform: scale(1.1);
   filter: drop-shadow(0 0 20px rgba(111, 240, 226, 0.5));
 }
+/* ============================================
+   QR CODE
+   ============================================ */
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.qr-code-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: 0;
+}
+
+.qr-code-container:hover::before {
+  opacity: 0.1;
+}
+
+.qr-code-container:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), var(--glow-primary);
+  border-color: var(--primary);
+}
+
+.qr-code-image {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-md);
+  background: white;
+  padding: 6px;
+  box-shadow: 0 0 20px rgba(111, 240, 226, 0.2);
+  transition: all var(--transition-base);
+  position: relative;
+  z-index: 1;
+}
+
+.qr-code-container:hover .qr-code-image {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(111, 240, 226, 0.4);
+}
+
+.qr-code-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
+  text-align: center;
+  transition: color var(--transition-base);
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.qr-code-container:hover .qr-code-label {
+  color: var(--primary);
+}
+
+/* Animation de pulse pour attirer l'attention */
+@keyframes qrPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(111, 240, 226, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(111, 240, 226, 0);
+  }
+}
+
+.qr-code-container {
+  animation: qrPulse 3s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .qr-code-container {
+    width: 100%;
+    padding: var(--spacing-lg);
+  }
+  
+  .qr-code-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .qr-code-label {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .qr-code-image {
+    width: 100px;
+    height: 100px;
+  }
+}
