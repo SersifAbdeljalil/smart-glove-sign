@@ -192,9 +192,12 @@ const Home = () => {
       <div className="team-card">
         <div className="team-image-wrapper">
           <img 
-            src="https://ui-avatars.com/api/?name=Nouhaila+Chahmi&background=8B1538&color=ffffff&size=400&bold=true&font-size=0.4"
+            src="/gestures/nouha.png" 
             alt="CHAHMI Nouhaila"
             className="team-image"
+            onError={(e) => {
+              e.target.src = 'https://ui-avatars.com/api/?name=Nouhaila+Chahmi&background=8B1538&color=ffffff&size=400&bold=true&font-size=0.4';
+            }}
           />
           <div className="team-overlay">
             <a 

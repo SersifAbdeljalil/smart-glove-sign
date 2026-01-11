@@ -353,13 +353,13 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧤 Smart Glove Dataset Collector</h1>
+            <h1> Smart Glove Dataset Collector</h1>
             <p>Serveur Flask - Collecte en Temps Réel</p>
         </div>
         
         <div class="content">
             <div class="section">
-                <h2>📊 Statistiques en Temps Réel</h2>
+                <h2>Statistiques en Temps Réel</h2>
                 <div class="status-card">
                     <div class="stat">
                         <div class="stat-value" id="totalSamples">0</div>
@@ -382,30 +382,22 @@ HTML_TEMPLATE = """
             </div>
             
             <div class="section">
-                <h2>🎮 Contrôles d'Enregistrement</h2>
-                <div class="gesture-grid">
-                    <button class="gesture-btn" onclick="selectGesture('POING')">👊 Poing</button>
-                    <button class="gesture-btn" onclick="selectGesture('OUVERT')">🖐️ Ouvert</button>
-                    <button class="gesture-btn" onclick="selectGesture('OK')">👌 OK</button>
-                    <button class="gesture-btn" onclick="selectGesture('POUCE')">👍 Pouce</button>
-                    <button class="gesture-btn" onclick="selectGesture('VICTOIRE')">✌️ Victoire</button>
-                    <button class="gesture-btn" onclick="selectGesture('POINTEUR')">☝️ Pointeur</button>
-                </div>
+                <h2> Contrôles d'Enregistrement</h2>
                 <input type="text" id="customLabel" placeholder="Ou entre un label personnalisé...">
                 <div style="text-align: center; margin-top: 15px;">
-                    <button class="btn btn-start" onclick="startRecording()">▶️ Démarrer</button>
-                    <button class="btn btn-stop" onclick="stopRecording()">⏹️ Arrêter</button>
-                    <button class="btn btn-merge" onclick="mergeDatasets()">📦 Fusionner Tout</button>
+                    <button class="btn btn-start" onclick="startRecording()">▶ Démarrer</button>
+                    <button class="btn btn-stop" onclick="stopRecording()">⏹ Arrêter</button>
+                    <button class="btn btn-merge" onclick="mergeDatasets()">Fusionner Tout</button>
                 </div>
             </div>
             
             <div class="section">
-                <h2>📈 Données en Temps Réel</h2>
+                <h2> Données en Temps Réel</h2>
                 <div class="data-display" id="dataDisplay">En attente de données de l'ESP32...</div>
             </div>
             
             <div class="section">
-                <h2>📁 Datasets Sauvegardés</h2>
+                <h2>Datasets Sauvegardés</h2>
                 <div class="dataset-list" id="datasetList">Chargement...</div>
             </div>
         </div>
