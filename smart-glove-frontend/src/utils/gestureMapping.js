@@ -24,15 +24,7 @@ export const gestureMapping = {
     category: 'Lettre',
     color: '#6FF0E2',
   },
-  'C': {
-    label: 'C',
-    displayName: 'Lettre C',
-    imagePath: '/gestures/C.png',
-    emoji: '©️',
-    description: 'Main en forme de C',
-    category: 'Lettre',
-    color: '#6FF0E2',
-  },
+ 
   'D': {
     label: 'D',
     displayName: 'Lettre D',
@@ -42,15 +34,7 @@ export const gestureMapping = {
     category: 'Lettre',
     color: '#6FF0E2',
   },
-  'E': {
-    label: 'E',
-    displayName: 'Lettre E',
-    imagePath: '/gestures/E.png',
-    emoji: '🇪',
-    description: 'Doigts repliés sur le pouce',
-    category: 'Lettre',
-    color: '#6FF0E2',
-  },
+
   'L': {
     label: 'L',
     displayName: 'Lettre L',
@@ -59,15 +43,6 @@ export const gestureMapping = {
     description: 'Pouce et index formant un L',
     category: 'Lettre',
     color: '#6FF0E2',
-  },
-  'MERCI': {
-    label: 'MERCI',
-    displayName: 'Merci',
-    imagePath: '/gestures/merci.png',
-    emoji: '🙏',
-    description: 'Geste de remerciement',
-    category: 'Expression',
-    color: '#FBE3B4', // Accent
   },
   'OK': {
     label: 'OK',
