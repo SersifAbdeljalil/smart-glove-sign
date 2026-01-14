@@ -1,0 +1,16 @@
+ancienneDATA/
+datasets/
+smart-glove-frontend/
+code/
+*.tmp
+*.ipynb
+*.png
+*.docx
+__pycache__/
+*.pyc
+.DS_Store
+analyze_dataset.ipynb
+train_model.py
+glove_predictor.py
+README.md
+LICENSE
