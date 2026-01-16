@@ -11,8 +11,6 @@ const char* password = "ABDOHZ@2018";
 
 // ========== URL Serveur Flask VERCEL ==========
 const char* serverUrl = "https://backend-smart-glov-bcii.vercel.app/predict";
-
-// ========== CONFIGURATION PINS ==========
 #define FLEX_THUMB 33
 #define FLEX_INDEX 34
 #define FLEX_MIDDLE 35
