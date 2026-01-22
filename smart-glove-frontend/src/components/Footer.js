@@ -1,7 +1,4 @@
-/* ============================================
-   FICHIER: src/components/Footer.js
-   Composant pied de page
-   ============================================ */
+
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -13,9 +10,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Contenu principal du footer */}
         <div className="footer-content">
-          {/* Section Brand */}
           <div className="footer-brand">
             <Link to="/" className="footer-logo">
               <Sparkles size={32} />
@@ -65,7 +60,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Section Liens Rapides */}
           <div className="footer-section">
             <h4 className="footer-section-title">Liens Rapides</h4>
             <ul className="footer-links">
@@ -92,7 +86,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Section Ressources */}
           <div className="footer-section">
             <h4 className="footer-section-title">Ressources</h4>
             <ul className="footer-links">
@@ -119,7 +112,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Section Contact */}
           <div className="footer-section">
             <h4 className="footer-section-title">Contact</h4>
             <ul className="footer-links">
@@ -128,14 +120,10 @@ const Footer = () => {
                   contact@smartglove.com
                 </a>
               </li>
-              <li>
-                <a href="tel:+212600000000" className="footer-link">
-                  +212 6 00 00 00 00
-                </a>
-              </li>
+             
               <li>
                 <span className="footer-link" style={{ cursor: 'default' }}>
-                  Casablanca, Maroc
+                  El Jadida, Maroc
                 </span>
               </li>
               <li>
@@ -147,9 +135,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Ligne de séparation */}
         <div className="footer-bottom">
-          {/* Copyright */}
           <div className="footer-copyright">
             <p>
               © {currentYear} Smart Glove. Tous droits réservés.
@@ -163,7 +149,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Réseaux sociaux */}
           <div className="footer-social">
             <a 
               href="https://github.com" 

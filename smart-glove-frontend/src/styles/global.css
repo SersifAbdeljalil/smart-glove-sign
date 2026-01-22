@@ -1,9 +1,4 @@
-/* ============================================
-   FICHIER: src/styles/global.css
-   Styles globaux avec nouvelle palette moderne
-   ============================================ */
 
-/* === RESET CSS === */
 * {
   margin: 0;
   padding: 0;
@@ -24,21 +19,21 @@ body {
   line-height: 1.6;
 }
 
-/* === VARIABLES CSS - PALETTE MODERNE === */
+
 :root {
   /* Couleurs de base - Tons sombres élégants */
-  --bg-darkest: #06141B;      /* Fond le plus sombre - Header/Footer */
-  --bg-darker: #11212D;        /* Fond sombre secondaire */
-  --bg-dark: #253745;          /* Fond moyen - Cards hover */
-  --bg-medium: #4A5C6A;        /* Fond clair - Cards */
-  --bg-light: #9BA8AB;         /* Gris clair - Bordures */
-  --bg-lightest: #CCD0CF;      /* Gris très clair - Text secondaire */
+  --bg-darkest: #06141B;      
+  --bg-darker: #11212D;        
+  --bg-dark: #253745;          
+  --bg-medium: #4A5C6A;        
+  --bg-light: #9BA8AB;        
+  --bg-lightest: #CCD0CF;      
   
   /* Couleurs primaires - Accent moderne */
-  --primary: #6FF0E2;          /* Turquoise vibrant - Actions principales */
-  --primary-dark: #5CD4C8;     /* Turquoise foncé - Hover */
-  --primary-light: #8FF5EA;    /* Turquoise clair - Backgrounds */
-  --primary-pale: rgba(111, 240, 226, 0.1); /* Turquoise transparent */
+  --primary: #6FF0E2;          
+  --primary-dark: #5CD4C8;     
+  --primary-light: #8FF5EA;    
+  --primary-pale: rgba(111, 240, 226, 0.1); 
   
   /* Couleurs secondaires - Accent chaud */
   --secondary: #FFB86C;        /* Orange/Pêche - Accents secondaires */

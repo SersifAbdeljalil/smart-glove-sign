@@ -1,13 +1,3 @@
-"""
-SMART GLOVE - Serveur Flask pour Collecte Dataset (CORRIGÉ v2)
-Fichier: glove_server.py
-
-Installation des dépendances:
-pip install flask flask-cors pandas numpy
-
-Utilisation:
-python glove_server.py
-"""
 
 from flask import Flask, request, jsonify, render_template_string
 from flask_cors import CORS
@@ -36,33 +26,26 @@ stats = {
     "last_data": None
 }
 
-# ========== ROUTE: Page d'accueil (Interface Web) ==========
 @app.route('/')
 def index():
     return render_template_string(HTML_TEMPLATE)
 
-# ========== ROUTE: Recevoir données de l'ESP32 ==========
 @app.route('/record', methods=['POST'])
 def record_data():
     global stats, CURRENT_SESSION_FILE, IS_RECORDING
     
     try:
-        # Récupérer les données JSON
         data = request.get_json()
         
         if not data:
             return jsonify({"status": "error", "message": "Pas de données"}), 400
         
-        # Ajouter timestamp et label
         data['label'] = CURRENT_LABEL
         data['datetime'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
-        # Mettre à jour stats
         stats['last_data'] = data
         
-        # Si en mode enregistrement, sauvegarder dans CSV
         if IS_RECORDING and CURRENT_LABEL != "AUCUN":
-            # Créer le fichier s'il n'existe pas
             if CURRENT_SESSION_FILE is None:
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 CURRENT_SESSION_FILE = os.path.join(
@@ -70,10 +53,8 @@ def record_data():
                     f"dataset_{CURRENT_LABEL}_{timestamp}.csv"
                 )
             
-            # Sauvegarder dans CSV
             df = pd.DataFrame([data])
             
-            # Ajouter au fichier existant ou créer nouveau
             if os.path.exists(CURRENT_SESSION_FILE):
                 df.to_csv(CURRENT_SESSION_FILE, mode='a', header=False, index=False)
             else:
@@ -87,7 +68,7 @@ def record_data():
                 stats['gestures'][CURRENT_LABEL] = 0
             stats['gestures'][CURRENT_LABEL] += 1
             
-            print(f"✅ Enregistré: {CURRENT_LABEL} | Total: {stats['session_samples']}")
+            print(f" Enregistré: {CURRENT_LABEL} | Total: {stats['session_samples']}")
         
         return jsonify({
             "status": "success",
@@ -97,7 +78,7 @@ def record_data():
         })
     
     except Exception as e:
-        print(f"❌ Erreur: {str(e)}")
+        print(f" Erreur: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 # ========== ROUTE: Démarrer enregistrement ==========
@@ -128,7 +109,7 @@ def stop_recording():
     IS_RECORDING = False
     CURRENT_LABEL = "AUCUN"
     
-    print(f"⏹️ ARRÊT ENREGISTREMENT: {label} | Échantillons: {samples}")
+    print(f" ARRÊT ENREGISTREMENT: {label} | Échantillons: {samples}")
     
     result = {
         "status": "stopped",
@@ -385,8 +366,8 @@ HTML_TEMPLATE = """
                 <h2> Contrôles d'Enregistrement</h2>
                 <input type="text" id="customLabel" placeholder="Ou entre un label personnalisé...">
                 <div style="text-align: center; margin-top: 15px;">
-                    <button class="btn btn-start" onclick="startRecording()">▶ Démarrer</button>
-                    <button class="btn btn-stop" onclick="stopRecording()">⏹ Arrêter</button>
+                    <button class="btn btn-start" onclick="startRecording()">Démarrer</button>
+                    <button class="btn btn-stop" onclick="stopRecording()">Arrêter</button>
                     <button class="btn btn-merge" onclick="mergeDatasets()">Fusionner Tout</button>
                 </div>
             </div>
@@ -413,7 +394,7 @@ HTML_TEMPLATE = """
         function startRecording() {
             var label = document.getElementById('customLabel').value.trim();
             if (!label) {
-                alert('⚠️ Entre un label!');
+                alert('Entre un label!');
                 return;
             }
             
@@ -421,12 +402,12 @@ HTML_TEMPLATE = """
                 .then(function(response) { return response.json(); })
                 .then(function(data) {
                     if (data.status === 'started') {
-                        alert('✅ Enregistrement démarré pour: ' + label);
+                        alert('Enregistrement démarré pour: ' + label);
                     }
                 })
                 .catch(function(error) {
                     console.error('Erreur:', error);
-                    alert('❌ Erreur de connexion au serveur');
+                    alert('Erreur de connexion au serveur');
                 });
         }
         
@@ -434,11 +415,11 @@ HTML_TEMPLATE = """
             fetch('/stop', { method: 'POST' })
                 .then(function(response) { return response.json(); })
                 .then(function(data) {
-                    alert('⏹️ Enregistrement arrêté!\\n' + data.samples + ' échantillons sauvegardés pour ' + data.label);
+                    alert('Enregistrement arrêté!\\n' + data.samples + ' échantillons sauvegardés pour ' + data.label);
                 })
                 .catch(function(error) {
                     console.error('Erreur:', error);
-                    alert('❌ Erreur de connexion au serveur');
+                    alert('Erreur de connexion au serveur');
                 });
         }
         
@@ -449,15 +430,15 @@ HTML_TEMPLATE = """
                 .then(function(response) { return response.json(); })
                 .then(function(data) {
                     if (data.status === 'success') {
-                        alert('✅ Fusion réussie!\\n' + data.total_samples + ' échantillons\\nFichier: ' + data.file);
+                        alert('Fusion réussie!\\n' + data.total_samples + ' échantillons\\nFichier: ' + data.file);
                         loadDatasets();
                     } else {
-                        alert('❌ ' + data.message);
+                        alert('Erreur: ' + data.message);
                     }
                 })
                 .catch(function(error) {
                     console.error('Erreur:', error);
-                    alert('❌ Erreur de connexion au serveur');
+                    alert('Erreur de connexion au serveur');
                 });
         }
         
@@ -475,10 +456,10 @@ HTML_TEMPLATE = """
                     
                     if (data.recording) {
                         recordingDot.classList.add('active');
-                        statusText.textContent = '🔴 ENREGISTREMENT EN COURS';
+                        statusText.textContent = ' ENREGISTREMENT EN COURS';
                     } else {
                         recordingDot.classList.remove('active');
-                        statusText.textContent = '⚪ En attente';
+                        statusText.textContent = ' En attente';
                     }
                     
                     if (data.last_data) {
@@ -523,7 +504,7 @@ HTML_TEMPLATE = """
                 });
         }
         
-        console.log('🚀 Interface Smart Glove chargée');
+        console.log(' Interface Smart Glove chargée');
         updateInterval = setInterval(updateStats, 1000);
         setInterval(loadDatasets, 5000);
         updateStats();
@@ -538,12 +519,8 @@ if __name__ == '__main__':
     print("\n" + "="*50)
     print("  SMART GLOVE - SERVEUR FLASK")
     print("="*50)
-    print("\n📁 Dossier datasets:", os.path.abspath(DATASET_FOLDER))
-    print("\n🌐 Interface web: http://localhost:5000")
-    print("🌐 Adresse réseau: http://192.168.1.154:5000")
-    print("\n⚠️ IMPORTANT: Modifie l'IP dans le code ESP32!")
-    print("   Ton adresse IP actuelle: 192.168.1.154")
-    print("   Utilise cette adresse dans ton code ESP32\n")
+    print("\n Dossier datasets:", os.path.abspath(DATASET_FOLDER))
+
     print("="*50 + "\n")
     
     app.run(host='0.0.0.0', port=5000, debug=True)

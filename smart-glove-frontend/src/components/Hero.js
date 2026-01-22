@@ -1,8 +1,3 @@
-/* ============================================
-   FICHIER: src/components/Hero.js
-   Composant section Hero (En-tête principal)
-   Version adaptée aux styles existants
-   ============================================ */
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -14,28 +9,23 @@ const Hero = () => {
   return (
     <section className="hero-section">
       <div className="hero-container">
-        {/* Contenu Texte */}
         <div className="hero-content">
-          {/* Badge */}
           <div className="hero-badge">
             <span>Technologie de pointe</span>
           </div>
 
-          {/* Titre Principal */}
           <h1 className="hero-title">
             Reconnaissance de{' '}
             <span className="hero-title-highlight">Gestes</span>{' '}
             en Temps Réel
           </h1>
 
-          {/* Description */}
           <p className="hero-description">
             Découvrez notre système intelligent de reconnaissance de gestes 
             utilisant l'apprentissage profond. Transformez vos mouvements en 
             commandes avec une précision exceptionnelle.
           </p>
 
-          {/* Boutons d'Action */}
           <div className="hero-buttons">
             <Link to="/dashboard">
               <button className="hero-button hero-button-primary">
@@ -51,19 +41,15 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Partie Visuelle */}
         <div className="hero-visual">
           <div className="hero-image-container">
-            {/* CONTENEUR AVEC BORDURE GRADIENT ANIMÉE */}
             <div 
               className="hero-image-wrapper"
               onMouseEnter={() => setIsImageHovered(true)}
               onMouseLeave={() => setIsImageHovered(false)}
             >
-              {/* Gradient Border Glow Effect */}
               <div className="hero-image-glow"></div>
               
-              {/* IMAGE RÉELLE */}
               <div className="hero-real-image">
                 <img 
                   src="/gestures/reel.png"
@@ -75,7 +61,6 @@ const Hero = () => {
                   }}
                 />
                 
-                {/* Overlay avec gradient - visible au hover */}
                 <div 
                   className="hero-image-overlay"
                   style={{
@@ -93,7 +78,6 @@ const Hero = () => {
                   </div>
                 </div>
 
-                {/* Glow Effect on Hover */}
                 <div 
                   className="hero-image-hover-glow"
                   style={{
@@ -104,7 +88,6 @@ const Hero = () => {
               </div>
             </div>
           </div>
-          {/* Carte Position 4 (Bas Gauche) */}
           <div className="hero-floating-card hero-card-bottom-left">
             <div className="hero-card-icon-wrapper">
               <div className="hero-card-icon-bg hero-icon-pink">
@@ -119,7 +102,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Indicateur de Scroll */}
       <div style={{
         position: 'absolute',
         bottom: 'var(--spacing-2xl)',
@@ -147,9 +129,7 @@ const Hero = () => {
         </a>
       </div>
 
-      {/* Styles Inline Supplémentaires */}
       <style>{`
-        /* ===== WRAPPER IMAGE AVEC BORDURE GRADIENT ===== */
         .hero-image-wrapper {
           position: relative;
           width: 100%;
@@ -157,7 +137,6 @@ const Hero = () => {
           border-radius: var(--radius-2xl);
         }
 
-        /* Gradient Border Glow - Animation Pulse */
         .hero-image-glow {
           position: absolute;
           inset: -3px;
@@ -204,7 +183,6 @@ const Hero = () => {
           }
         }
 
-        /* ===== CONTAINER IMAGE RÉELLE ===== */
         .hero-real-image {
           position: relative;
           width: 100%;
@@ -224,7 +202,6 @@ const Hero = () => {
           display: block;
         }
 
-        /* ===== OVERLAY AVEC INFO PROJECT ===== */
         .hero-image-overlay {
           position: absolute;
           bottom: 0;
@@ -266,7 +243,6 @@ const Hero = () => {
           text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
-        /* ===== GLOW EFFECT ON HOVER ===== */
         .hero-image-hover-glow {
           position: absolute;
           inset: 0;
@@ -281,7 +257,6 @@ const Hero = () => {
           pointer-events: none;
         }
 
-        /* ===== CARTES FLOTTANTES RÉORGANISÉES ===== */
         .hero-floating-card {
           position: absolute;
           background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
@@ -303,7 +278,6 @@ const Hero = () => {
           box-shadow: var(--shadow-xl), var(--glow-primary);
         }
 
-        /* Positions Spécifiques */
         .hero-card-top-right {
           top: 8%;
           right: -8%;
@@ -335,7 +309,6 @@ const Hero = () => {
           border-color: rgba(236, 72, 153, 0.3);
         }
 
-        /* Icônes des Cartes */
         .hero-card-icon-wrapper {
           flex-shrink: 0;
         }
@@ -397,7 +370,6 @@ const Hero = () => {
           font-weight: 500;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
           .hero-floating-card {
             min-width: 180px;

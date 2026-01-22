@@ -13,17 +13,16 @@ app = Flask(__name__)
 CORS(app)
 
 # ========== CHARGEMENT DU MODÈLE ==========
-print("\n🤖 Chargement du modèle...")
 
 try:
     model = joblib.load('glove_model.pkl')
     scaler = joblib.load('scaler.pkl')
     label_encoder = joblib.load('label_encoder.pkl')
-    print("✅ Modèle chargé avec succès!")
-    print(f"✅ Labels disponibles: {label_encoder.classes_.tolist()}")
+    print("Modèle chargé avec succès!")
+    print(f"Labels disponibles: {label_encoder.classes_.tolist()}")
 except Exception as e:
-    print(f"❌ ERREUR: Impossible de charger le modèle: {e}")
-    print("💡 Lance d'abord: python train_model.py")
+    print(f"ERREUR: Impossible de charger le modèle: {e}")
+    print("Lance d'abord: python train_model.py")
     exit(1)
 
 # ========== STATISTIQUES + DERNIÈRE PRÉDICTION ==========

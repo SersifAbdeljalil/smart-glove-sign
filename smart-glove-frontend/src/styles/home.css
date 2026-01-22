@@ -1,16 +1,9 @@
-/* ============================================
-   FICHIER: src/styles/home.css
-   Styles page d'accueil - Design moderne
-   ============================================ */
+
 
 .home-page {
   min-height: 100vh;
   background: var(--bg-primary);
 }
-
-/* ============================================
-   NAVBAR - Design moderne minimaliste
-   ============================================ */
 .navbar {
   position: fixed;
   top: 0;

@@ -1,7 +1,3 @@
-/* ============================================
-   FICHIER: src/components/Features.js
-   Composant section Fonctionnalités
-   ============================================ */
 
 import React from 'react';
 import { 
@@ -15,7 +11,6 @@ import {
 } from 'lucide-react';
 
 const Features = () => {
-  // Liste des fonctionnalités
   const features = [
     {
       id: 1,

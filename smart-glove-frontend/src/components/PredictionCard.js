@@ -1,7 +1,4 @@
-/* ============================================
-   FICHIER: src/components/PredictionCard.js
-   Composant carte de prédiction avec probabilités
-   ============================================ */
+
 
 import React from 'react';
 import GestureImage from './GestureImage';
@@ -21,7 +18,6 @@ const PredictionCard = ({
   className = ''
 }) => {
   
-  // Si pas de prédiction, afficher un état vide
   if (!prediction) {
     return (
       <div className={`prediction-card prediction-card-empty ${className}`}>
@@ -44,7 +40,6 @@ const PredictionCard = ({
 
   return (
     <div className={`prediction-card ${className}`}>
-      {/* En-tête de la carte */}
       <div className="prediction-card-header">
         <h3 className="prediction-card-title">
           🎯 Résultat de la Prédiction
@@ -56,10 +51,8 @@ const PredictionCard = ({
         )}
       </div>
 
-      {/* Corps de la carte */}
       <div className="prediction-card-body">
         
-        {/* Image du geste */}
         {showImage && (
           <div className="prediction-image-section">
             <GestureImage 
@@ -71,7 +64,6 @@ const PredictionCard = ({
           </div>
         )}
 
-        {/* Confiance */}
         <div className="prediction-confidence-section">
           <div className="prediction-confidence-label">
             Niveau de Confiance
@@ -99,7 +91,6 @@ const PredictionCard = ({
           </div>
         </div>
 
-        {/* Informations du geste */}
         {gestureInfo && (
           <div className="prediction-info-section">
             <div className="prediction-info-item">
@@ -117,7 +108,6 @@ const PredictionCard = ({
           </div>
         )}
 
-        {/* Barres de probabilités */}
         {showProbabilities && probabilities && (
           <div className="prediction-probabilities-section">
             <h4 className="prediction-probabilities-title">

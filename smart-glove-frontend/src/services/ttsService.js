@@ -1,4 +1,3 @@
-// src/services/ttsService.js
 
 class TTSService {
   constructor() {
@@ -16,12 +15,9 @@ class TTSService {
     this.initVoices();
   }
 
-  /**
-   * Mapping manuel des voix connues par genre
-   */
+ 
   getVoiceGenderMap() {
     return {
-      // Voix françaises
       'Thomas': 'male',
       'Nicolas': 'male',
       'Daniel': 'male',
@@ -29,7 +25,6 @@ class TTSService {
       'Virginie': 'female',
       'Audrey': 'female',
       
-      // Voix Google (Chrome/Android)
       'Google français': 'female',
       'Google Français': 'female',
       'Google US English Male': 'male',
@@ -37,7 +32,6 @@ class TTSService {
       'Google UK English Male': 'male',
       'Google UK English Female': 'female',
       
-      // Voix Microsoft (Edge/Windows)
       'Microsoft David': 'male',
       'Microsoft Mark': 'male',
       'Microsoft Zira': 'female',
@@ -47,7 +41,6 @@ class TTSService {
       'Microsoft Claude': 'male',
       'Microsoft Eloise': 'female',
       
-      // Voix Apple (Safari/macOS/iOS)
       'Thomas': 'male',
       'Nicolas': 'male',
       'Daniel': 'male',
@@ -59,7 +52,6 @@ class TTSService {
       'Alex': 'male',
       'Fred': 'male',
       
-      // Voix supplémentaires communes
       'Yannick': 'male',
       'Alain': 'male',
       'Bruno': 'male',
@@ -69,20 +61,16 @@ class TTSService {
     };
   }
 
-  /**
-   * Déterminer le genre d'une voix
-   */
+ 
   detectVoiceGender(voice) {
     const voiceMap = this.getVoiceGenderMap();
     
-    // 1. Chercher une correspondance exacte dans le mapping
     for (const [name, gender] of Object.entries(voiceMap)) {
       if (voice.name.includes(name)) {
         return gender;
       }
     }
     
-    // 2. Chercher par mots-clés dans le nom
     const nameLower = voice.name.toLowerCase();
     
     const maleIndicators = [
@@ -100,33 +88,25 @@ class TTSService {
       'samantha', 'sara', 'sarah', 'alice', 'emma'
     ];
     
-    // Vérifier les indicateurs masculins
     for (const indicator of maleIndicators) {
       if (nameLower.includes(indicator)) {
         return 'male';
       }
     }
     
-    // Vérifier les indicateurs féminins
     for (const indicator of femaleIndicators) {
       if (nameLower.includes(indicator)) {
         return 'female';
       }
     }
     
-    // 3. Si aucune correspondance, utiliser des heuristiques
-    // Les voix se terminant par 'a' sont souvent féminines
+
     if (voice.name.endsWith('a')) {
       return 'female';
     }
     
-    // Par défaut, considérer comme neutre/féminin
     return 'female';
   }
-
-  /**
-   * Initialiser et catégoriser les voix disponibles
-   */
   initVoices() {
     const loadVoices = () => {
       const voices = this.synth.getVoices();
@@ -135,7 +115,6 @@ class TTSService {
       this.availableVoices.female = [];
       
       voices.forEach(voice => {
-        // Filtrer les voix françaises et anglaises
         if (voice.lang.startsWith('fr-') || voice.lang.startsWith('en-')) {
           const gender = this.detectVoiceGender(voice);
           
@@ -161,10 +140,6 @@ class TTSService {
     
     this.synth.onvoiceschanged = loadVoices;
   }
-
-  /**
-   * Mettre à jour la sélection de voix selon le genre choisi
-   */
   updateVoiceSelection() {
     let voicePool = [];
     
@@ -175,8 +150,6 @@ class TTSService {
     } else {
       voicePool = [...this.availableVoices.female, ...this.availableVoices.male];
     }
-    
-    // Priorité aux voix françaises
     this.selectedVoice = voicePool.find(v => v.lang.startsWith('fr-')) ||
                          voicePool.find(v => v.lang.startsWith('en-')) ||
                          voicePool[0] ||
@@ -184,10 +157,6 @@ class TTSService {
     
     console.log('🔊 Voix sélectionnée:', this.selectedVoice?.name, '(' + this.voiceGender + ')');
   }
-
-  /**
-   * Obtenir le message selon le mode
-   */
   getGestureMessage(label) {
     if (this.messageMode === 'short') {
       const shortMessages = {
@@ -299,10 +268,6 @@ class TTSService {
       }
     };
   }
-
-  /**
-   * Obtenir la liste des voix disponibles avec leurs genres détectés
-   */
   listVoices() {
     const voices = this.synth.getVoices();
     return voices
@@ -314,6 +279,5 @@ class TTSService {
       }));
   }
 }
-
 const ttsService = new TTSService();
 export default ttsService;

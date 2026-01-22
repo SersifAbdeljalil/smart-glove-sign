@@ -6,7 +6,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Détecter le scroll pour changer le style de la navbar
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -20,12 +19,10 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Fermer le menu mobile lors du clic sur un lien
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Toggle du menu mobile
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -33,13 +30,11 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Logo */}
         <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
           <span className="navbar-logo-icon">🧤</span>
           <span>Smart Glove</span>
         </Link>
 
-        {/* Menu Desktop */}
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
           <li>
             <Link 
@@ -86,7 +81,6 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {/* Bouton Menu Mobile */}
         <button 
           className="navbar-toggle" 
           onClick={toggleMobileMenu}

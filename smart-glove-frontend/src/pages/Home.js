@@ -1,7 +1,4 @@
-/* ============================================
-   FICHIER: src/pages/Home.js
-   Page d'accueil principale
-   ============================================ */
+
 
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Sparkles, Rocket, BookOpen, Home as HomeIcon, GraduationCap, Settings, Zap,Linkedin, Users } from 'lucide-react';
@@ -15,7 +12,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Détecter le scroll pour changer le style de la navbar
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -29,12 +25,9 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 const logoPath = '/gestures/LOGO.png';
-  // Fermer le menu mobile lors du clic sur un lien
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
   };
-
-  // Toggle du menu mobile
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -42,7 +35,6 @@ const logoPath = '/gestures/LOGO.png';
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Logo */}
         <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
   <img 
     src="/gestures/LOGO.png" 
@@ -57,7 +49,6 @@ const logoPath = '/gestures/LOGO.png';
   <span>Smart Glove</span>
 </Link>
 
-        {/* Menu Desktop */}
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'active' : ''}`}>
           <li>
             <Link 
@@ -112,7 +103,6 @@ const logoPath = '/gestures/LOGO.png';
           </li>
         </ul>
 
-        {/* Bouton Menu Mobile */}
         <button 
           className="navbar-toggle" 
           onClick={toggleMobileMenu}
@@ -127,19 +117,15 @@ const logoPath = '/gestures/LOGO.png';
 
 const Home = () => {
   
-  // Scroll vers le haut au chargement de la page
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="home-page">
-      {/* Navbar fixe */}
       <Navbar />
 
-      {/* Section Hero */}
       <Hero />
-{/* Section Équipe */}
 <section className="team-section" id="team">
   <div className="team-container">
     <div className="team-header">
@@ -154,7 +140,6 @@ const Home = () => {
     </div>
 
     <div className="team-grid">
-      {/* Membre 1 - Abdeljalil */}
       <div className="team-card">
         <div className="team-image-wrapper">
           <img 
@@ -188,7 +173,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Membre 2 - Nouhaila */}
       <div className="team-card">
         <div className="team-image-wrapper">
           <img 
@@ -222,7 +206,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Membre 3 - Kawtar */}
       <div className="team-card">
         <div className="team-image-wrapper">
           <img 
@@ -255,10 +238,7 @@ const Home = () => {
     </div>
   </div>
 </section>
-      {/* Section Features */}
       <Features />
-
-      {/* Section À propos */}
       <section 
         id="about" 
         style={{
@@ -293,8 +273,6 @@ const Home = () => {
            interaction homme-machine et robotique.
             </p>
           </div>
-
-          {/* Statistiques visuelles */}
           <div className="features-grid" style={{ marginTop: 'var(--spacing-3xl)' }}>
             <div className="feature-card">
               <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #6FF0E2 0%, #00D4AA 100%)' }}>

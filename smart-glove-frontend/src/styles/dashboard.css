@@ -1,16 +1,10 @@
-/* ============================================
-   FICHIER: src/styles/dashboard.css
-   Styles Dashboard - Design moderne futuriste
-   QR CODE AGRANDI ET MISE EN PAGE AMÉLIORÉE
-   ============================================ */
+
 
 .dashboard-page {
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg-darkest) 0%, var(--bg-darker) 50%, var(--bg-dark) 100%);
   position: relative;
 }
-
-/* Effet de grille en arrière-plan */
 .dashboard-page::before {
   content: '';
   position: fixed;
@@ -34,9 +28,6 @@
   z-index: 1;
 }
 
-/* ============================================
-   HEADER DU DASHBOARD
-   ============================================ */
 .dashboard-header {
   text-align: center;
   margin-bottom: var(--spacing-3xl);
@@ -59,10 +50,6 @@
   color: var(--text-secondary);
   margin-bottom: var(--spacing-2xl);
 }
-
-/* ============================================
-   CONTRÔLES PRINCIPAUX - MISE EN PAGE AMÉLIORÉE
-   ============================================ */
 .controls-wrapper {
   display: flex;
   flex-direction: column;
@@ -79,8 +66,6 @@
   max-width: 1200px;
   align-items: stretch;
 }
-
-/* Statut API */
 .api-status {
   display: flex;
   align-items: center;
@@ -144,7 +129,6 @@
   }
 }
 
-/* Boutons de contrôle */
 .tts-toggle-btn,
 .tts-settings-btn,
 .tts-test-btn {
@@ -210,11 +194,6 @@
   transform: translateY(-2px);
   box-shadow: 0 0 30px rgba(255, 184, 108, 0.5);
 }
-
-/* ============================================
-   QR CODE - TRÈS GRANDE TAILLE ET VISIBLE
-   CÔTE À CÔTE AVEC LA PRÉDICTION
-   ============================================ */
 .qr-code-container {
   display: flex;
   flex-direction: column;
@@ -259,8 +238,6 @@
   box-shadow: 0 30px 80px rgba(111, 240, 226, 0.45), 0 0 60px rgba(111, 240, 226, 0.25);
   border-color: var(--secondary);
 }
-
-/* Image du QR Code - TRÈS GRANDE */
 .qr-code-image {
   width: 280px;
   height: 280px;
@@ -279,8 +256,6 @@
   transform: scale(1.05);
   box-shadow: 0 0 60px rgba(111, 240, 226, 0.6), inset 0 0 30px rgba(111, 240, 226, 0.15);
 }
-
-/* Label du QR Code */
 .qr-code-label {
   font-size: 1.25rem;
   font-weight: 700;
@@ -301,16 +276,12 @@
 .qr-code-container:hover .qr-code-label {
   transform: scale(1.05);
 }
-
-/* Ajout d'une icône ou texte descriptif */
 .qr-code-label::before {
   content: '📱 ';
   font-size: 1.5rem;
   display: inline-block;
   margin-right: 0.5rem;
 }
-
-/* Animation de pulse pour le QR code */
 @keyframes qrPulse {
   0%, 100% {
     box-shadow: 0 20px 60px rgba(111, 240, 226, 0.3), 0 0 40px rgba(111, 240, 226, 0.15);
@@ -323,8 +294,6 @@
 .qr-code-container {
   animation: qrPulse 3s ease-in-out infinite;
 }
-
-/* Badge "Scannez-moi" */
 .qr-code-label::after {
   content: 'Scannez pour accéder au site';
   display: block;
@@ -337,10 +306,6 @@
   background: none;
   -webkit-text-fill-color: var(--text-secondary);
 }
-
-/* ============================================
-   PANNEAU DE PARAMÈTRES
-   ============================================ */
 .tts-settings-panel {
   background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
   border: 1px solid var(--border-color);
@@ -434,10 +399,6 @@
   color: var(--primary);
   font-weight: 600;
 }
-
-/* ============================================
-   STATISTIQUES GLOBALES
-   ============================================ */
 .dashboard-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -512,11 +473,6 @@
   color: var(--text-secondary);
   font-weight: 500;
 }
-
-/* ============================================
-   CONTENU PRINCIPAL - PRÉDICTION ET QR CODE
-   LAYOUT EN GRILLE CÔTE À CÔTE
-   ============================================ */
 .dashboard-content {
   animation: fadeIn 0.6s ease-out 0.4s both;
   display: grid;
@@ -556,8 +512,6 @@
     transform: scale(1);
   }
 }
-
-/* Effet de lumière animé */
 .current-prediction::before {
   content: '';
   position: absolute;
@@ -690,9 +644,6 @@
   z-index: 1;
 }
 
-/* ============================================
-   ÉTAT VIDE
-   ============================================ */
 .empty-prediction {
   border: 2px dashed var(--border-color);
   grid-column: 1;
@@ -710,10 +661,6 @@
   color: var(--text-secondary);
   font-weight: 500;
 }
-
-/* ============================================
-   MESSAGE D'ERREUR
-   ============================================ */
 .dashboard-error {
   background: linear-gradient(135deg, rgba(255, 85, 85, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
   border: 1px solid var(--error);
@@ -737,10 +684,6 @@
 .dashboard-error-icon {
   font-size: 1.5rem;
 }
-
-/* ============================================
-   NAVBAR LOGO
-   ============================================ */
 .navbar-logo-icon {
   display: flex;
   align-items: center;
@@ -760,9 +703,6 @@
   filter: drop-shadow(0 0 20px rgba(111, 240, 226, 0.5));
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
 @media (max-width: 1024px) {
   .dashboard-title {
     font-size: 2.5rem;
@@ -828,7 +768,6 @@
     font-size: 2rem;
   }
   
-  /* RESPONSIVE: QR Code et Prédiction en colonne sur mobile */
   .dashboard-content {
     grid-template-columns: 1fr;
   }

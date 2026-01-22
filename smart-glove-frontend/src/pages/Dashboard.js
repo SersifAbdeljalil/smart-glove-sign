@@ -9,21 +9,16 @@ import apiService from '../services/api';
 import ttsService from '../services/ttsService';
 import '../styles/dashboard.css';
 
-// ============================================
-// FONCTION AMÉLIORÉE POUR LES IMAGES
-// ============================================
 const getGestureImage = (label) => {
   if (!label) {
-    console.warn('⚠️ Label vide, utilisation image par défaut');
+    console.warn(' Label vide, utilisation image par défaut');
     return '/gestures/ok.png';
   }
   
-  // Normaliser le label (minuscules, sans espaces)
   const normalizedLabel = label.toString().toLowerCase().trim();
   const logoPath = '/gestures/LOGO.png';
-  console.log('🔍 Recherche image pour label:', label, '→ normalisé:', normalizedLabel);
+  console.log(' Recherche image pour label:', label, '→ normalisé:', normalizedLabel);
   
-  // Mapping exact des labels vers les fichiers
   const gestureMap = {
     'a': 'A.png',
     'b': 'B.png',
@@ -36,22 +31,18 @@ const getGestureImage = (label) => {
     'stop': 'stop.png',
   };
   
-  // Chercher dans le mapping
   if (gestureMap[normalizedLabel]) {
     const imagePath = `/gestures/${gestureMap[normalizedLabel]}`;
     console.log('✅ Image trouvée dans mapping:', imagePath);
     return imagePath;
   }
   
-  // Si pas trouvé, essayer directement avec le nom du label
   const directPath = `/gestures/${normalizedLabel}.png`;
   console.log('⚠️ Pas dans mapping, essai direct:', directPath);
   return directPath;
 };
 
-// ============================================
-// NAVBAR
-// ============================================
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -130,18 +121,13 @@ const Navbar = () => {
   );
 };
 
-// ============================================
-// DASHBOARD
-// ============================================
 const Dashboard = () => {
-  // ========== ÉTATS ==========
   const [prediction, setPrediction] = useState(null);
   const [history, setHistory] = useState([]);
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
   const [apiStatus, setApiStatus] = useState('checking');
   
-  // États TTS
   const [isTTSEnabled, setIsTTSEnabled] = useState(true);
   const [messageMode, setMessageMode] = useState('short');
   const [voiceGender, setVoiceGender] = useState('all');
@@ -149,7 +135,6 @@ const Dashboard = () => {
   
   const lastPredictionRef = useRef(null);
 
-  // ========== EFFETS ==========
   useEffect(() => {
     checkApiConnection();
     loadStatsFromApi();
@@ -170,7 +155,6 @@ const Dashboard = () => {
     };
   }, [apiStatus, isTTSEnabled, messageMode, voiceGender]);
 
-  // ========== FONCTIONS ==========
   const checkApiConnection = async () => {
     const result = await apiService.testConnection();
     if (result.success) {
@@ -229,7 +213,6 @@ const Dashboard = () => {
     }
   };
 
-  // ========== CONTRÔLES TTS ==========
   const toggleTTS = () => {
     const newState = !isTTSEnabled;
     setIsTTSEnabled(newState);
@@ -250,7 +233,6 @@ const Dashboard = () => {
     ttsService.test();
   };
 
-  // Fonction de debug
   const debugImages = () => {
     console.log('📁 Images disponibles dans /public/gestures/:');
     const labels = ['A', 'B', 'C', 'D', 'E', 'L', 'merci', 'ok', 'stop'];
@@ -260,14 +242,12 @@ const Dashboard = () => {
     });
   };
 
-  // ========== RENDER ==========
   return (
     <div className="dashboard-page">
       <Navbar />
 
       <div className="dashboard-container">
         
-        {/* En-tête du Dashboard */}
         <div className="dashboard-header">
           <h1 className="dashboard-title">
             <Target size={40} style={{ 
@@ -281,10 +261,8 @@ const Dashboard = () => {
             Affichage en temps réel des gestes détectés
           </p>
 
-          {/* Contrôles principaux */}
           <div className="controls-wrapper">
             <div className="main-controls">
-              {/* Statut API */}
               <div className={`api-status api-status-${apiStatus}`}>
                 <span className="api-status-indicator"></span>
                 <span className="api-status-text">
@@ -294,7 +272,6 @@ const Dashboard = () => {
                 </span>
               </div>
 
-              {/* Bouton Toggle TTS */}
               <button 
                 onClick={toggleTTS}
                 className={`tts-toggle-btn ${isTTSEnabled ? 'tts-enabled' : 'tts-disabled'}`}
@@ -312,8 +289,6 @@ const Dashboard = () => {
                   </>
                 )}
               </button>
-
-              {/* Bouton Paramètres */}
               <button 
                 onClick={() => setShowSettings(!showSettings)}
                 className="tts-settings-btn"
@@ -323,7 +298,6 @@ const Dashboard = () => {
                 <span>Paramètres</span>
               </button>
 
-              {/* Bouton Test */}
               <button 
                 onClick={testTTS}
                 className="tts-test-btn"
@@ -334,7 +308,6 @@ const Dashboard = () => {
               </button>
             </div>
             
-            {/* Panneau de paramètres */}
             {showSettings && (
               <div className="tts-settings-panel">
                 <h3 className="settings-title">
@@ -346,7 +319,6 @@ const Dashboard = () => {
                   Paramètres Audio
                 </h3>
                 
-                {/* Mode de message */}
                 <div className="setting-group">
                   <label className="setting-label">Type d'annonce :</label>
                   <div className="setting-options">
@@ -365,7 +337,6 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                {/* Genre de voix */}
                 <div className="setting-group">
                   <label className="setting-label">Genre de voix :</label>
                   <div className="setting-options">
@@ -390,7 +361,6 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                {/* Aperçu */}
                 <div className="settings-preview">
                   <p>
                     <strong>Configuration actuelle :</strong><br/>
@@ -408,7 +378,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Statistiques Globales */}
         {stats && (
           <div className="dashboard-stats-grid">
             <div className="stat-card">
@@ -423,7 +392,6 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Message d'erreur */}
         {error && (
           <div className="dashboard-error">
             <AlertTriangle size={24} className="dashboard-error-icon" />
@@ -431,9 +399,7 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* SECTION PRINCIPALE: Prédiction + QR Code côte à côte */}
         <div className="dashboard-content">
-          {/* Carte de Prédiction */}
           {prediction ? (
             <div className="current-prediction" key={prediction.timestamp}>
               <h2 className="current-prediction-title">Geste Détecté</h2>
@@ -477,7 +443,6 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* Carte QR Code - À CÔTÉ de la prédiction */}
           <div className="qr-code-container">
             <img 
               src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https://smart-glove-sign-uf6f.vercel.app/" 

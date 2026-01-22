@@ -1,7 +1,3 @@
-/* ============================================
-   FICHIER: src/components/Button.js
-   Composant bouton réutilisable
-   ============================================ */
 
 import React from 'react';
 
@@ -17,7 +13,6 @@ const Button = ({
   ...props 
 }) => {
   
-  // Définir les classes CSS selon le variant
   const getVariantClass = () => {
     switch(variant) {
       case 'primary':
@@ -33,7 +28,6 @@ const Button = ({
     }
   };
 
-  // Définir les classes CSS selon la taille
   const getSizeClass = () => {
     switch(size) {
       case 'small':

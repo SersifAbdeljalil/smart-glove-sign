@@ -1,73 +1,60 @@
-/* ============================================
-   FICHIER: src/services/api.js
-   Service API - Version finale corrigée
-   ============================================ */
 
 import axios from 'axios';
 
-// Lire l'URL depuis .env
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ;
 
-// Afficher l'URL au démarrage pour vérification
-console.log('🌐 API URL:', API_BASE_URL);
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ||'http://192.168.71.109:5000' ;
 
-// Configuration Axios
+
+console.log('API URL:', API_BASE_URL);
+
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: false, // Important pour CORS
+  withCredentials: false, 
 });
 
-// Intercepteur de requêtes (pour debug)
 apiClient.interceptors.request.use(
   (config) => {
     const url = `${config.baseURL}${config.url}`;
-    console.log(`📤 Requête: ${config.method.toUpperCase()} ${url}`);
+    console.log(`Requête: ${config.method.toUpperCase()} ${url}`);
     return config;
   },
   (error) => {
-    console.error('❌ Erreur avant envoi:', error);
+    console.error('Erreur avant envoi:', error);
     return Promise.reject(error);
   }
 );
 
-// Intercepteur de réponses (pour debug)
 apiClient.interceptors.response.use(
   (response) => {
-    console.log('✅ Réponse reçue:', response.status, response.data);
+    console.log(' Réponse reçue:', response.status, response.data);
     return response;
   },
   (error) => {
-    // Messages d'erreur détaillés
     if (error.code === 'ERR_NETWORK') {
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.error('❌ ERREUR RÉSEAU (ERR_NETWORK)');
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.error('URL tentée:', error.config?.baseURL + error.config?.url);
       console.error('');
-      console.error('🔍 Vérifiez:');
+      console.error(' Vérifiez:');
       console.error('   1. Flask est démarré ? → python app.py');
       console.error('   2. URL correcte ? → ' + API_BASE_URL);
       console.error('   3. flask-cors installé ? → pip install flask-cors');
       console.error('   4. CORS(app) ajouté dans Flask ?');
       console.error('   5. .env correct et React redémarré ?');
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     } else if (error.code === 'ECONNABORTED') {
-      console.error('⏱️ TIMEOUT - Le serveur ne répond pas');
+      console.error('⏱ TIMEOUT - Le serveur ne répond pas');
     } else if (error.response) {
-      console.error('🔴 Erreur HTTP:', error.response.status, error.response.data);
+      console.error(' Erreur HTTP:', error.response.status, error.response.data);
     } else {
-      console.error('❓ Erreur inconnue:', error.message);
+      console.error(' Erreur inconnue:', error.message);
     }
     
     return Promise.reject(error);
   }
 );
-
-// ========== GESTION DES ERREURS ==========
 
 const createErrorResponse = (error, context) => {
   const response = {
@@ -106,13 +93,9 @@ const createErrorResponse = (error, context) => {
   return response;
 };
 
-// ========== SERVICE API ==========
 
 const apiService = {
   
-  /**
-   * Tester la connexion au serveur
-   */
   testConnection: async () => {
     try {
       console.log('🔍 Test de connexion vers:', API_BASE_URL);
@@ -128,10 +111,6 @@ const apiService = {
       return createErrorResponse(error, 'Test de connexion');
     }
   },
-
-  /**
-   * Récupérer les statistiques
-   */
   getStats: async () => {
     try {
       const response = await apiClient.get('/stats');
@@ -144,12 +123,8 @@ const apiService = {
     }
   },
 
-  /**
-   * Envoyer une prédiction
-   */
   predict: async (features) => {
     try {
-      // Validation des données
       const validation = validateFeatures(features);
       if (!validation.valid) {
         return {
@@ -168,9 +143,6 @@ const apiService = {
     }
   },
 
-  /**
-   * Récupérer la dernière prédiction
-   */
   getLatestPrediction: async () => {
     try {
       const response = await apiClient.get('/latest-prediction');
@@ -179,7 +151,6 @@ const apiService = {
         data: response.data,
       };
     } catch (error) {
-      // 404 est normal si aucune prédiction
       if (error.response?.status === 404) {
         return {
           success: true,
@@ -192,12 +163,6 @@ const apiService = {
   },
 
 };
-
-// ========== FONCTIONS UTILITAIRES ==========
-
-/**
- * Valider les features
- */
 export const validateFeatures = (features) => {
   const requiredFields = [
     'flex_thumb',
@@ -210,8 +175,6 @@ export const validateFeatures = (features) => {
     'accel_y',
     'accel_z',
   ];
-
-  // Vérifier les champs manquants
   const missingFields = requiredFields.filter(field => !(field in features));
   
   if (missingFields.length > 0) {
@@ -220,8 +183,6 @@ export const validateFeatures = (features) => {
       error: `Champs manquants: ${missingFields.join(', ')}`,
     };
   }
-
-  // Vérifier les types
   for (const field of requiredFields) {
     if (typeof features[field] !== 'number' || isNaN(features[field])) {
       return {
@@ -234,9 +195,6 @@ export const validateFeatures = (features) => {
   return { valid: true };
 };
 
-/**
- * Créer des features vides
- */
 export const createEmptyFeatures = () => ({
   flex_thumb: 0,
   flex_index: 0,
@@ -249,9 +207,6 @@ export const createEmptyFeatures = () => ({
   accel_z: 0,
 });
 
-/**
- * Formater les données de prédiction
- */
 export const formatPredictionData = (predictionData) => {
   if (!predictionData) return null;
 

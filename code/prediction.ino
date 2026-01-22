@@ -10,7 +10,7 @@ const char* ssid = "Tp-link";
 const char* password = "ABDOHZ@2018";
 
 // ========== URL Serveur Flask VERCEL ==========
-const char* serverUrl = "https://backend-smart-glov-bcii.vercel.app/predict";
+const char* serverUrl = "Adress ip du server flask";
 #define FLEX_THUMB 33
 #define FLEX_INDEX 34
 #define FLEX_MIDDLE 35
