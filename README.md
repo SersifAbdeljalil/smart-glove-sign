@@ -38,9 +38,9 @@
 
 ### Recognized Gestures
 
-The system recognizes **9 distinct gestures**:
-- **Letters**: A, B, C, D, E, L
-- **Words**: OK, STOP, MERCI (Thank you)
+The system recognizes **6 distinct gestures**:
+- **Letters**: A, B, D, F
+- **Words**: OK, STOP
 
 ### Academic Context
 
@@ -51,10 +51,10 @@ Project developed as part of the Master's program in Embedded Systems and IoT - 
 ## Features
 
 ### AI & Machine Learning
-- Random Forest classifier with 9 classes
+- Random Forest classifier with 6 classes
 - Overall accuracy: **>95%**
 - Real-time prediction (<100ms)
-- Manually labeled dataset (360+ samples)
+- Manually labeled dataset (500+ samples)
 
 ### Embedded Hardware
 - **ESP32** microcontroller
@@ -102,10 +102,6 @@ Sensors → ESP32 → POST /predict → Random Forest → Prediction
 
 <img src="confusion_matrix.png" alt="Confusion Matrix" width="500"/>
 
-### Feature Importance
-
-<img src="feature_importance.png" alt="Feature Importance" width="500"/>
-
 ### Key Metrics
 
 | Metric | Value |
@@ -113,14 +109,7 @@ Sensors → ESP32 → POST /predict → Random Forest → Prediction
 | **Accuracy** | >95% |
 | **Average Precision** | 94-98% |
 | **Prediction Time** | <100ms |
-| **Confused Gestures** | D ↔ E (2 errors) |
-
-### Feature Analysis
-
-**Top 3 Most Important Sensors:**
-1. **flex_index** (28%)
-2. **flex_middle** (25%)
-3. **flex_thumb** (24%)
+| **Dataset Size** | 500+ samples |
 
 ---
 
@@ -151,14 +140,13 @@ smart-glove-sign/
 ├── scaler.pkl                  # Feature scaler
 ├── label_encoder.pkl           # Label encoder
 ├── confusion_matrix.png        # Visual results
-├── feature_importance.png      # Feature importance chart
 └── smart-glove-frontend/       # React application
     ├── public/
     │   └── gestures/
     │       ├── LOGO.png        # Project logo
     │       ├── reel.png        # Glove photo
     │       ├── System Architecture.png  # Architecture diagram
-    │       └── [A-L, ok, stop, merci].png
+    │       └── [A, B, D, F, ok, stop].png
     ├── src/
     │   ├── pages/
     │   │   └── Dashboard.js    # Main interface
@@ -215,7 +203,7 @@ python glove_predictor.py
 ```
 Loading model...
 Model loaded successfully!
-Available labels: ['A', 'B', 'C', 'D', 'E', 'L', 'MERCI', 'OK', 'STOP']
+Available labels: ['A', 'B', 'D', 'F', 'OK', 'STOP']
 
 ==================================================
   SMART GLOVE - PREDICTION INTERFACE
@@ -286,7 +274,7 @@ Send sensor data for prediction
   "probabilities": {
     "A": 96.5,
     "B": 2.1,
-    "C": 0.8
+    "D": 0.8
   },
   "timestamp": "2026-01-03T14:30:45"
 }
@@ -311,7 +299,7 @@ Get system statistics
 ```json
 {
   "total_predictions": 150,
-  "last_prediction": "MERCI",
+  "last_prediction": "STOP",
   "confidence": 95.3,
   "predictions_by_label": {
     "A": 20,
