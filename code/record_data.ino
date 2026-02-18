@@ -99,7 +99,6 @@ void readMPU() {
   mpuData.gyro_y = gyro.gyro.y * 57.2958;
   mpuData.gyro_z = gyro.gyro.z * 57.2958;
   
-  // Accéléromètre (g)
   mpuData.accel_x = accel.acceleration.x / 9.81;
   mpuData.accel_y = accel.acceleration.y / 9.81;
   mpuData.accel_z = accel.acceleration.z / 9.81;
