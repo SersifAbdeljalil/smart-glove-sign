@@ -166,7 +166,6 @@ void calibrate() {
     delay(10);
   }
   
-  // Détecte inversion
   if (thumb.connected && thumb.minValue > thumb.maxValue) {
     int temp = thumb.minValue;
     thumb.minValue = thumb.maxValue;
