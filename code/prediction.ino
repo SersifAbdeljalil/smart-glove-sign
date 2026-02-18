@@ -5,21 +5,17 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 
-// ========== CONFIGURATION WiFi ==========
 const char* ssid = "Tp-link";
 const char* password = "ABDOHZ@2018";
 
-// ========== URL Serveur Flask VERCEL ==========
 const char* serverUrl = "Adress ip du server flask";
 #define FLEX_THUMB 33
 #define FLEX_INDEX 34
 #define FLEX_MIDDLE 35
 
-// ========== CONFIGURATION I2C MPU6050 ==========
 #define I2C_SDA 21
 #define I2C_SCL 22
 
-// ========== PARAMÈTRES ==========
 #define NUM_SAMPLES 5
 #define CALIBRATION_TIME 3000
 #define ADC_RESOLUTION 12
@@ -27,7 +23,6 @@ const char* serverUrl = "Adress ip du server flask";
 #define MIN_VALID_VALUE 500
 #define DISCONNECTED_THRESHOLD 4000
 
-// ========== STRUCT FlexSensor ==========
 struct FlexSensor {
   int pin;
   String name;
@@ -45,7 +40,6 @@ FlexSensor thumb = {FLEX_THUMB, "Pouce"};
 FlexSensor indexFinger = {FLEX_INDEX, "Index"};
 FlexSensor middle = {FLEX_MIDDLE, "Majeur"};
 
-// ========== MPU6050 ==========
 Adafruit_MPU6050 mpu;
 struct MPUData {
   float gyro_x = 0;
@@ -64,7 +58,6 @@ unsigned long lastUpdateTime = 0;
 int successCount = 0;
 int errorCount = 0;
 
-// ========== FONCTIONS MPU ==========
 
 bool initMPU() {
   Wire.begin(I2C_SDA, I2C_SCL);
@@ -76,14 +69,13 @@ bool initMPU() {
     return false;
   }
   
-  Serial.println("✅ MPU6050 détecté!");
+  Serial.println(" MPU6050 détecté!");
   
-  // Configuration MPU
   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
   mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
   
-  Serial.println("✅ MPU6050 configuré:");
+  Serial.println(" MPU6050 configuré:");
   Serial.println("   - Accéléromètre: ±8g");
   Serial.println("   - Gyroscope: ±500°/s");
   Serial.println("   - Filtre: 21Hz");
@@ -97,18 +89,15 @@ void readMPU() {
   sensors_event_t accel, gyro, temp;
   mpu.getEvent(&accel, &gyro, &temp);
   
-  // Gyroscope (degrés/seconde)
-  mpuData.gyro_x = gyro.gyro.x * 57.2958; // rad/s -> deg/s
+  mpuData.gyro_x = gyro.gyro.x * 57.2958; 
   mpuData.gyro_y = gyro.gyro.y * 57.2958;
   mpuData.gyro_z = gyro.gyro.z * 57.2958;
   
-  // Accéléromètre (g)
   mpuData.accel_x = accel.acceleration.x / 9.81;
   mpuData.accel_y = accel.acceleration.y / 9.81;
   mpuData.accel_z = accel.acceleration.z / 9.81;
 }
 
-// ========== FONCTIONS FLEX SENSORS ==========
 
 bool isFlexConnected(int pin) {
   long sum = 0;
