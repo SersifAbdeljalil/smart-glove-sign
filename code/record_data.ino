@@ -75,7 +75,7 @@ bool initMPU() {
   
   Serial.println("✅ MPU6050 détecté!");
   
-  // Configuration MPU
+  
   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
   mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
@@ -94,7 +94,7 @@ void readMPU() {
   sensors_event_t accel, gyro, temp;
   mpu.getEvent(&accel, &gyro, &temp);
   
-  // Gyroscope (degrés/seconde)
+  
   mpuData.gyro_x = gyro.gyro.x * 57.2958; // rad/s -> deg/s
   mpuData.gyro_y = gyro.gyro.y * 57.2958;
   mpuData.gyro_z = gyro.gyro.z * 57.2958;
